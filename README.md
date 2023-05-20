@@ -20,4 +20,4 @@ The objective of is to publish this app to the Appstore
 
 ## Images
 
-![Screenshot](images/Beclean-login.png)| width=100
+![Screenshot](images/Beclean-login.png | width=100)

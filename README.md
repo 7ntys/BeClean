@@ -20,14 +20,4 @@ The objective of is to publish this app to the Appstore
 
 ## Images
 
-#### The login
-<img src="images/Beclean-login.png" width="300" height="500">
-
-#### The Calendar
-<img src="images/Beclean-calendar.png" width="300" height="500">
-
-#### The houses
-<img src="images/Beclean-house.png" width="300" height="500">
-
-#### The cleaners
-<img src="images/Beclean-cleaner.png" width="300" height="500">
+#### The login <img src="images/Beclean-login.png" width="300" height="500"> #### The Calendar <img src="images/Beclean-calendar.png" width="300" height="500"> #### The houses <img src="images/Beclean-house.png" width="300" height="500"> #### The cleaners <img src="images/Beclean-cleaner.png" width="300" height="500">

@@ -20,4 +20,4 @@ The objective of is to publish this app to the Appstore
 
 ## Images
 
-<img src="images/Beclean-login.png" width="300" height="500"> <img src="images/Beclean-calendar.png" width="300" height="500"> <img src="images/Beclean-house.png" width="300" height="500"> <img src="images/Beclean-cleaner.png" width="300" height="500">
+<img src="images/Beclean-login.png" width="250" height="500"> <img src="images/Beclean-calendar.png" width="250" height="500"> <img src="images/Beclean-house.png" width="250" height="500"> <img src="images/Beclean-cleaner.png" width="250" height="500">

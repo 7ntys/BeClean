@@ -20,4 +20,4 @@ The objective of is to publish this app to the Appstore
 
 ## Images
 
-<img src="images/Beclean-login" width="100" height="100">
+<img src="images/Beclean-login.png" width="200" height="500">

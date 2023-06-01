@@ -19,8 +19,9 @@
 		DE149F3B298EC20800F3FA49 /* AddCleanerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE149F3A298EC20800F3FA49 /* AddCleanerView.swift */; };
 		DE149F3E298EC3CC00F3FA49 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = DE149F3D298EC3CC00F3FA49 /* iPhoneNumberField */; };
 		DE197B5729E080BC00D65ED4 /* test_script.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE197B5629E080BC00D65ED4 /* test_script.swift */; };
-		DE3846C12A0FEB5B003A4071 /* HorizonCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = DE3846C02A0FEB5B003A4071 /* HorizonCalendar */; };
 		DE3846C42A1019E4003A4071 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = DE3846C32A1019E4003A4071 /* FSCalendar */; };
+		DE5982CC2A26554E0087FDE7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DE5982CB2A26554E0087FDE7 /* Alamofire */; };
+		DE5982CF2A2663270087FDE7 /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = DE5982CE2A2663270087FDE7 /* OpenAISwift */; };
 		DE631C1029F56CCC007D219A /* customCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE631C0F29F56CCC007D219A /* customCalendar.swift */; };
 		DEA0D7AE295DBF83005A3F22 /* BClean_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0D7AD295DBF83005A3F22 /* BClean_App.swift */; };
 		DEA0D7B2295DBF84005A3F22 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEA0D7B1295DBF84005A3F22 /* Assets.xcassets */; };
@@ -84,10 +85,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE5982CC2A26554E0087FDE7 /* Alamofire in Frameworks */,
 				DE149F2F298D194700F3FA49 /* FirebaseAuth in Frameworks */,
 				DE149F31298D194700F3FA49 /* FirebaseFirestore in Frameworks */,
-				DE3846C12A0FEB5B003A4071 /* HorizonCalendar in Frameworks */,
 				DE3846C42A1019E4003A4071 /* FSCalendar in Frameworks */,
+				DE5982CF2A2663270087FDE7 /* OpenAISwift in Frameworks */,
 				DE149F3E298EC3CC00F3FA49 /* iPhoneNumberField in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,8 +243,9 @@
 				DE149F2E298D194700F3FA49 /* FirebaseAuth */,
 				DE149F30298D194700F3FA49 /* FirebaseFirestore */,
 				DE149F3D298EC3CC00F3FA49 /* iPhoneNumberField */,
-				DE3846C02A0FEB5B003A4071 /* HorizonCalendar */,
 				DE3846C32A1019E4003A4071 /* FSCalendar */,
+				DE5982CB2A26554E0087FDE7 /* Alamofire */,
+				DE5982CE2A2663270087FDE7 /* OpenAISwift */,
 			);
 			productName = "BClean!";
 			productReference = DEA0D7AA295DBF83005A3F22 /* BClean!.app */;
@@ -275,8 +278,9 @@
 			packageReferences = (
 				DE149F2D298D194700F3FA49 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				DE149F3C298EC3CC00F3FA49 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */,
-				DE3846BF2A0FEB5B003A4071 /* XCRemoteSwiftPackageReference "HorizonCalendar" */,
 				DE3846C22A1019E4003A4071 /* XCRemoteSwiftPackageReference "FSCalendar" */,
+				DE5982CA2A26554E0087FDE7 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				DE5982CD2A2663270087FDE7 /* XCRemoteSwiftPackageReference "OpenAISwift" */,
 			);
 			productRefGroup = DEA0D7AB295DBF83005A3F22 /* Products */;
 			projectDirPath = "";
@@ -558,20 +562,28 @@
 				minimumVersion = 0.9.0;
 			};
 		};
-		DE3846BF2A0FEB5B003A4071 /* XCRemoteSwiftPackageReference "HorizonCalendar" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/HorizonCalendar#building-a-calendarView";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		DE3846C22A1019E4003A4071 /* XCRemoteSwiftPackageReference "FSCalendar" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/WenchaoD/FSCalendar";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
+			};
+		};
+		DE5982CA2A26554E0087FDE7 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		DE5982CD2A2663270087FDE7 /* XCRemoteSwiftPackageReference "OpenAISwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adamrushy/OpenAISwift?ref=createwithswift.com";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -592,15 +604,20 @@
 			package = DE149F3C298EC3CC00F3FA49 /* XCRemoteSwiftPackageReference "iPhoneNumberField" */;
 			productName = iPhoneNumberField;
 		};
-		DE3846C02A0FEB5B003A4071 /* HorizonCalendar */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DE3846BF2A0FEB5B003A4071 /* XCRemoteSwiftPackageReference "HorizonCalendar" */;
-			productName = HorizonCalendar;
-		};
 		DE3846C32A1019E4003A4071 /* FSCalendar */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DE3846C22A1019E4003A4071 /* XCRemoteSwiftPackageReference "FSCalendar" */;
 			productName = FSCalendar;
+		};
+		DE5982CB2A26554E0087FDE7 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE5982CA2A26554E0087FDE7 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		DE5982CE2A2663270087FDE7 /* OpenAISwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE5982CD2A2663270087FDE7 /* XCRemoteSwiftPackageReference "OpenAISwift" */;
+			productName = OpenAISwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

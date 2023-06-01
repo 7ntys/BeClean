@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-import Firebase
+import FirebaseFirestore
+import FirebaseAuth
 struct LoginView: View {
     let db = Firestore.firestore()
     @State var email:String = ""
@@ -34,7 +35,7 @@ struct LoginView: View {
                     Image("logo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 200,height: 200)
+                        .frame(width: 150,height: 150)
                 }.padding(.top,20)
                 
                 VStack {

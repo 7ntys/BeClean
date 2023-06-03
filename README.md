@@ -3,6 +3,10 @@ An ios app that let the user easily manage its airbnb cleaning.
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/7ntys/BeClean) ![GitHub last commit](https://img.shields.io/github/last-commit/7ntys/BeClean) ![GitHub all releases](https://img.shields.io/github/downloads/7ntys/BeClean/total)
 
+## Google docs 
+
+https://docs.google.com/document/d/1JoMN8H4gpHNNVD_UY3p1QNn9PPpJsxAwsQBmuKywGcw/edit?usp=sharing
+
 ## Features
 - Login/Signup via Firebase
 - Custom calendar with all airbnb cleaning displayed

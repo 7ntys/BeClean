@@ -7,6 +7,10 @@ An ios app that let the user easily manage its airbnb cleaning.
 
 https://docs.google.com/document/d/1JoMN8H4gpHNNVD_UY3p1QNn9PPpJsxAwsQBmuKywGcw/edit?usp=sharing
 
+## Canva presentation
+
+https://www.canva.com/design/DAFk5IhErYk/a2IhGSTMN8CDMfrfHwWSAA/edit?utm_content=DAFk5IhErYk&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 ## Features
 - Login/Signup via Firebase
 - Custom calendar with all airbnb cleaning displayed

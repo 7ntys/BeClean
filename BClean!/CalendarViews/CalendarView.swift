@@ -123,16 +123,14 @@ struct CalendarViews: View {
     func sendMessage(){
         formatter.dateFormat = "yyyy-MM-dd"
         let accountSID="ACeea13e8605d11cb4b544957e63507a4e"
-        let authToken="17eba0d7a645121336d24df0d7be73c7"
+        let authToken="83b084d3139a2f3512dd0ddacd34bd55"
         let fromPhoneNumber = "+12708106567"
-        let gpt3Endpoint = "https://api.openai.com/v1/engines/davinci-codex/completions"
         if let events = userManager.shared.currentUser?.eventStore{
             events.forEach { menage in
                 if menage.cleaner != nil {
                     var toPhoneNumber = "\(menage.cleaner!.phone)"
-                    let message = "This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at \(menage.property.name). Please contact your employer if you are available."
-                    
-                    toPhoneNumber = "\(menage.cleaner?.phone)"
+                    print("\(toPhoneNumber)")
+                    let message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at \(menage.property.name). Please contact your employer if you are available."
                     let parameters: [String: Any] = [
                         "From": fromPhoneNumber,
                         "To": toPhoneNumber,
@@ -153,6 +151,10 @@ struct CalendarViews: View {
             }
         }
 
+    }
+    func sendSMS()
+        {
+            
     }
 }
 

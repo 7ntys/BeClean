@@ -6,8 +6,70 @@
 //
 
 import SwiftUI
+import Firebase
+struct customSheet:View{
+    @Binding var isSheetPresented:Bool
+    @Binding var selectedEvent: Event?
+    @State var selection:cleaner?
+    let db = Firestore.firestore()
+    var formatter = DateFormatter()
+    var body:some View{
+        let _ = formatter.dateFormat = "yyyy-MM-dd"
+        let _ = print("the date of selection is : \(selectedEvent!.endDate!)")
+        if selectedEvent?.endDate! != nil{
+            VStack{
+                Spacer()
+                Text("Assign a reservation")
+                    .font(.custom("AirbnbCereal_W_XBd", size: 32))
+                    .foregroundStyle((LinearGradient(gradient: Gradient(colors: [Color("orange-gradient"), Color("red-gradient")]), startPoint: .top, endPoint: .bottom)))
+                    .padding(.vertical,10)
+                Text("Selected date : \(formatter.string(from: selectedEvent!.endDate!))")
+                    .font(.custom("AirbnbCereal_W_XBd", size: 20))
+                    .foregroundColor(.blue)
+                    .fontWeight(.bold)
+                    HousePresentation(houseName: selectedEvent!.property.name, houseAddress: selectedEvent!.property.address, houseDefaultCleaningTime: selectedEvent!.property.clean_time, housePrefferredCleaner: "",image: selectedEvent!.property.picture)
+                    Menu {
+                        ForEach(userManager.shared.currentUser!.cleaners,id: \.self) { cleaner in
+                            Button {
+                                selection = cleaner
+                            } label: {
+                                Text(cleaner.name)
+                            }
 
+                        }
+                    } label: {
+                        if selection == nil {Text("Cleaners options")}
+                        else{
+                            Text("\(selection!.name)")
+                        }
+                    }
 
+                    Button {
+                        if selection == nil {
+                            print("No cleaners selected")                                    }
+                        else{
+                            selectedEvent!.cleaner = selection
+                            print("the cleaner of the event is : \(selectedEvent!.cleaner!.name)")
+                            db.collection("users").document(userManager.shared.currentUser!.id).collection("events").document(selectedEvent!.id).setData(["cleaner" : selection!.id],merge: true)
+                            isSheetPresented = false
+                        }
+                    } label: {
+                        Text("Confirm")
+                    }.buttonStyle(GradientBackgroundButton(color1: "light-green-gradient", color2: "dark-green-gradient"))
+                
+                
+                Spacer()
+            }.presentationDetents([.medium, .large])
+                .onAppear{
+                    selection = selectedEvent?.cleaner
+                }
+        }
+        else{
+            Text("Please reclick on a date")
+        }
+Spacer()
+    }
+}
 
 struct WeeklyCalendarView: View {
     @State private var selectedDate = Date()
@@ -18,10 +80,11 @@ struct WeeklyCalendarView: View {
         cal.firstWeekday = 6 // Set first day of week to Monday
         return cal
     }()
-    @State private var cleaners: [cleaner] = (userManager.shared.currentUser?.cleaners ?? [])
-    @State private var properties: [house] = (userManager.shared.currentUser?.properties ?? [])
+    @State var events: [Event] = (userManager.shared.currentUser?.eventStore ?? [])
     @State var currUser:user?
-    init(){update_view()}
+    @State var selectedEvent:Event?
+    @State var selected:Date?
+    @State var isSheetPresented:Bool = false
     var body: some View {
         VStack {
             VStack {
@@ -64,6 +127,10 @@ struct WeeklyCalendarView: View {
                                 HStack(spacing: 8) {
                                     ForEach(0..<7) { dayIndex in
                                         let date = self.calendar.date(byAdding: .day, value: dayIndex, to: weekStartDate)!
+                                        // Filter events for the current day
+                                        let dayEvents = events.filter { event in
+                                            return calendar.isDate(event.endDate!, inSameDayAs: date)
+                                        }
                                         VStack(spacing: 4) {
                                             Text("\(self.calendar.shortWeekdaySymbols[self.calendar.component(.weekday, from: date)-1])")
                                                 .font(.system(size: 14, weight: .semibold))
@@ -72,38 +139,44 @@ struct WeeklyCalendarView: View {
                                             Text("\(self.calendar.component(.day, from: date))")
                                                 .font(.system(size: 18, weight: .medium))
                                                 .foregroundColor(date == Date() ? .accentColor : .primary)
-                                        }
-                                        .frame(maxWidth: .infinity)
-                                    }
-                                }
-                                Divider()
-                                VStack {
-                                    if (cleaners.count == 0){Text("Nothing Here")}
-                                    else{
-                                        ForEach(cleaners, id: \.self) { cleaner in
-                                            HStack {
-                                                Text(cleaner.name)
-                                                    .font(.system(size: 14, weight: .semibold))
-                                                    .foregroundColor(.secondary)
-                                                    .padding(.bottom, 0)
-                                                    Spacer()
-                                                }
-                                                HStack(spacing: 8) {
-                                                    //Replace this code : for each events, display the event on its date
-                                                    ForEach(0..<7) { _ in
-                                                        VStack {
-                                                        Circle()
-                                                            .foregroundColor(.gray)
-                                                            .frame(width: UIScreen.main.bounds.width/9, height: UIScreen.main.bounds.width/9)
-                                                        Spacer()
-                                                        }.frame(maxWidth: .infinity,maxHeight: UIScreen.main.bounds.width/9)
+                                                .padding(.bottom,20)
+                                            if dayEvents.count >= 1 {
+                                                ForEach(dayEvents) { index_event in
+                                                    Button {
+                                                        selected = index_event.endDate!
+                                                        selectedEvent = index_event
+                                                        isSheetPresented = true
+                                                    } label: {
+                                                        ZStack {
+                                                            if index_event.cleaner == nil {
+                                                                Circle()
+                                                                    .frame(width: 51,height: 51)
+                                                                    .foregroundColor(.red)
+                                                            }
+                                                            Image(uiImage: index_event.property.picture!)
+                                                                .resizable()
+                                                                .frame(width: 50,height: 50)
+                                                                .aspectRatio(contentMode: .fit)
+                                                                .clipShape(Circle())
+                                                            if index_event.cleaner == nil {
+                                                                Circle()
+                                                                    .frame(width: 50,height: 50)
+                                                                    .foregroundColor(.gray)
+                                                                    .opacity(0.6)
+                                                            }
+                                                        }
                                                     }
                                                 }
-                                        Divider()
+                                            }
+                                            Spacer()
+                                            
+                                        }
+                                        .frame(maxWidth: .infinity)
+                                        .sheet(isPresented: $isSheetPresented){
+                                            customSheet(isSheetPresented: $isSheetPresented,selectedEvent: $selectedEvent)
+                                        }
                                     }
                                 }
-                                }
-
                             }
                             .frame(width: UIScreen.main.bounds.width - 32, height: 300)
                             .padding()
@@ -123,13 +196,13 @@ struct WeeklyCalendarView: View {
                 .animation(.easeInOut)
                 .frame(maxHeight: 300)
             }
-            Spacer()
-        }
-    }
+                    }
+                    Spacer()
+                }
     private func update_view(){
-        currUser = userManager.shared.currentUser
-        if currUser?.cleaners != nil{cleaners = currUser!.cleaners}
-        if currUser?.properties != nil {properties = currUser!.properties}
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            events = userManager.shared.currentUser?.eventStore ?? []
+        }
 }
 
 }

@@ -23,6 +23,7 @@ struct fsCalendar: View {
         VStack {
             CalendarViewRepresentable(refresh: $refresh,eventStore: $events,selectedDate: $selectedDate,isSheetShowing: $isSheetPresented)
                 }.sheet(isPresented: $isSheetPresented) {
+                    let _ = update_view()
                     let _ = print("the date of selection is : \(selectedDate)")
                     if selectedDate != nil{
                         VStack{
@@ -58,7 +59,7 @@ struct fsCalendar: View {
                                         print("No cleaners selected")                                    }
                                     else{
                                         event.cleaner = selection
-                                        print("the cleaner of the event is : \(event.cleaner?.name)")
+                                        print("the cleaner of the event is : \(event.cleaner!.name)")
                                         db.collection("users").document(userManager.shared.currentUser!.id).collection("events").document(event.id).setData(["cleaner" : selection!.id],merge: true)
                                         isSheetPresented = false
                                         refresh.toggle()
@@ -72,14 +73,21 @@ struct fsCalendar: View {
                         }.presentationDetents([.medium, .large])
                     }
                     else{
-                        Text("Bug error")
+                        Text("Please reclick on a date")
                     }
             Spacer()
         }.onAppear {
-            self.formatter.dateFormat = "yyyy-MM-dd"
-            self.refresh = false
-            self.refresh = true
-            self.update_view()
+            selectedDate = Date()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                // Put your code which should be executed with a delay here
+                self.refresh = true
+                self.update_view()
+                self.formatter.dateFormat = "yyyy-MM-dd"
+                self.refresh = false
+            }
+            
+            
+            
         }    }
     private func update_view(){
         events = userManager.shared.currentUser?.eventStore ?? []
@@ -100,6 +108,15 @@ struct CalendarViewRepresentable: UIViewRepresentable {
     var formatter = DateFormatter()
     typealias UIViewType = FSCalendar
 
+    func trysmt(){selectedDate = Date()}
+    
+    func test_date(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let selected = formatter.string(from: selectedDate!)
+        print("Selected Date 2 : \(selected)")
+    }
+    
     func makeUIView(context: Context) -> FSCalendar {
         let calendar = FSCalendar()
         calendar.dataSource = context.coordinator
@@ -121,14 +138,19 @@ struct CalendarViewRepresentable: UIViewRepresentable {
         calendar.clipsToBounds = true
         calendar.firstWeekday = 2
         calendar.allowsSelection = true
+        if let initialSelection = selectedDate {
+                    calendar.select(initialSelection)
+                }
+        trysmt()
         return calendar
     }
 
     func updateUIView(_ uiView: FSCalendar, context: Context) {
-            if refresh {
-                uiView.reloadData()
-                eventStore = userManager.shared.currentUser?.eventStore ?? []
-                refresh.toggle()
+            if !refresh {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    // Put your code which should be executed with a delay here
+                    uiView.reloadData()
+                }
             }
         }
 
@@ -141,6 +163,7 @@ struct CalendarViewRepresentable: UIViewRepresentable {
             var parent: CalendarViewRepresentable
             init(_ parent: CalendarViewRepresentable) {
                 self.parent = parent
+                parent.trysmt()
             }
         
         func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
@@ -172,14 +195,18 @@ struct CalendarViewRepresentable: UIViewRepresentable {
         }
         // FSCalendarDelegate
                 func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-                    self.parent.selectedDate = date
+                    parent.trysmt()
+                    parent.selectedDate = date
+                    parent.test_date()
+                    parent.refresh.toggle()
                     let formatter = DateFormatter()
                     formatter.dateFormat = "yyyy-MM-dd"
                     let selected = formatter.string(from: date)
                     print("Selected Date: \(selected)")
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        // Put your code which should be executed with a delay here
                         self.parent.isSheetShowing = true
-                        }
+                    }
                 }
 
         }

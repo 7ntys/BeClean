@@ -8,7 +8,7 @@ import SwiftUI
 import Foundation
 import FirebaseFirestore
 // Définir une structure pour stocker les données d'un événement
-class Event:Hashable{
+class Event:Hashable,Identifiable{
     static func == (lhs: Event, rhs: Event) -> Bool {
         return lhs.id == rhs.id
     }

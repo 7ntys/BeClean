@@ -102,8 +102,6 @@ struct LoginView: View {
                                         @State var user = user(name: name, surname: surname,id: documentId)
                                         userManager.shared.currentUser = user
                                         //Verif
-                                        print("mtn")
-                                        userManager.shared.currentUser?.print_user()
                                         //Recuperation des cleaners :
                                         update_cleaner(documentId: documentId)
                                         //Recuperation des houses :
@@ -118,13 +116,13 @@ struct LoginView: View {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                             userManager.shared.currentUser?.print_events()
                                             test()
-                                            print("apres all update")
-                                            userManager.shared.currentUser?.print_events()
                                         }
                                     }
                                 }
                         }
-                isLoginActive = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    isLoginActive = true
+                }
             }
         }
     }
@@ -153,8 +151,6 @@ struct LoginView: View {
                             property.picture = image
                         }
                     }
-                    
-                    print("Via property : \(property.name) \(property.address)")
                     userManager.shared.currentUser?.properties.append(property)
                 }
             }
@@ -163,9 +159,7 @@ struct LoginView: View {
     }
 
     func test(){
-        print("----------------------")
         userManager.shared.currentUser!.properties.forEach({ house in
-            print("dans la boucle")
             var events = get_infos(url: house.icalLink, property: house)
             events.forEach { thing in
                 add_event_db(event: thing)

@@ -7,17 +7,8 @@
 
 import SwiftUI
 
-struct CustomViews: View {
-    var body: some View {
-        WeeklyCalendarView()
-    }
-}
 
-struct CustomViews_Previews: PreviewProvider {
-    static var previews: some View {
-        CustomViews()
-    }
-}
+
 
 struct TextZone: View{
     @Binding var value:String

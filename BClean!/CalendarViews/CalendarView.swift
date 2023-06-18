@@ -40,6 +40,7 @@ struct tabView: View{
 
 struct CalendarViews: View {
     @State var sheetShowed:Bool = false
+    @ObservedObject var gpt = GPTHelper()
     private var formatter = DateFormatter()
     var body: some View {
         VStack{
@@ -93,7 +94,7 @@ struct CalendarViews: View {
                         Spacer()
                         if let events = userManager.shared.currentUser?.eventStore{
                             ForEach(events, id: \.self) { menage in
-                                if menage.cleaner != nil {
+                                if menage.cleaner != nil && menage.endDate!.compare(Date()) == .orderedDescending{
                                     Text("Cleaning on : \(formatter.string(from: menage.endDate!)) with \(menage.cleaner!.name) at \(menage.property.name)")
                                         .foregroundColor(.gray)
                                         .font(.custom("AirbnbCereal_W_Lt", size: 11))
@@ -112,51 +113,83 @@ struct CalendarViews: View {
                         Spacer()
                     }.presentationDetents([.medium, .large])
                 }
-            fsCalendar()
+            WeeklyCalendarView()
             Spacer()
         }.onAppear{
             self.formatter.dateFormat = "yyyy-MM-dd"
+            gpt.setup()
         }
     }
-    
+    func translateMessage(text: String, worker: cleaner, completion: @escaping (String) -> Void) {
+        let prompt = "Translate me the following message into this language: \(worker.language). To translate: " + text
+        gpt.send(text: prompt) { result in
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
+    }
+
+
+
     
     func sendMessage(){
         formatter.dateFormat = "yyyy-MM-dd"
-        let accountSID="ACeea13e8605d11cb4b544957e63507a4e"
-        let authToken="83b084d3139a2f3512dd0ddacd34bd55"
-        let fromPhoneNumber = "+12708106567"
+        let accountSID="AC7cd15eb5e9e12c2d1a9e5d4908911b61"
+        let authToken="0de0be1c2fab05eef6d2e18c9ad5d2ca"
+        let fromPhoneNumber = "+14068047148"
         if let events = userManager.shared.currentUser?.eventStore{
             events.forEach { menage in
-                if menage.cleaner != nil {
+                if menage.cleaner != nil && menage.endDate!.compare(Date()) == .orderedDescending{
                     var toPhoneNumber = "\(menage.cleaner!.phone)"
                     print("\(toPhoneNumber)")
-                    let message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at \(menage.property.name). Please contact your employer if you are available."
-                    let parameters: [String: Any] = [
-                        "From": fromPhoneNumber,
-                        "To": toPhoneNumber,
-                        "Body": message
-                    ]
-                    let url = "https://api.twilio.com/2010-04-01/Accounts/\(accountSID)/Messages"
-                    // Define the HTTP basic authentication header
-                    let credential = Data("\(accountSID):\(authToken)".utf8).base64EncodedString()
-                    let headers: HTTPHeaders = [
-                        "Authorization": "Basic \(credential)"
-                    ]
-                    AF.request(url, method: .post, parameters: parameters)
-                        .authenticate(username: accountSID, password: authToken)
-                        .responseJSON { response in
-                          debugPrint(response)
-                      }
+                    var message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at \(menage.property.name). Please contact your employer if you are available."
+                    let toSend = translateMessage(text: message, worker: menage.cleaner!) { translatedMessage in
+                        print("Translated : \(translatedMessage)")
+                        let parameters: [String: Any] = [
+                            "From": fromPhoneNumber,
+                            "To": toPhoneNumber,
+                            "Body": translatedMessage
+                        ]
+                        let url = "https://api.twilio.com/2010-04-01/Accounts/\(accountSID)/Messages"
+                        // Define the HTTP basic authentication header
+                        let credential = Data("\(accountSID):\(authToken)".utf8).base64EncodedString()
+                        let headers: HTTPHeaders = [
+                            "Authorization": "Basic \(credential)"
+                        ]
+                        AF.request(url, method: .post, parameters: parameters)
+                            .authenticate(username: accountSID, password: authToken)
+                            .responseJSON { response in
+                              debugPrint(response)
+                          }
+                    }
                 }
             }
         }
 
     }
-    func sendSMS()
-        {
-            
+}
+
+final class GPTHelper: ObservableObject{
+    init(){}
+    private var client: OpenAISwift?
+    func setup(){
+        client = OpenAISwift(authToken: "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")
+    }
+    func send(text:String,completion: @escaping(String) -> Void){
+        client?.sendCompletion(with: text,maxTokens: 500) { result in
+            switch result{
+            case .success(let model):
+                let output = model.choices?.first?.text ?? ""
+                print("output : \(output)")
+                completion(output)
+            case .failure:
+                print("There is a failure somewhere")
+                break
+            }
+        }
     }
 }
+
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {

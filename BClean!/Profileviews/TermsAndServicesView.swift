@@ -16,11 +16,7 @@ struct TermsAndServicesView: View {
                     .padding()
                     .fontWeight(.bold)
                     .foregroundColor(.blue)
-                ForEach(0..<30){ index in
-                    Text("Blabla")
-                        .foregroundColor(.black)
-                        .frame(width: 100, height: 100)
-                }
+                Text("Coming later")
                     
             }
         }

@@ -61,31 +61,7 @@ struct ProfileView: View {
                         }
                     }.padding(5)
                     NavigationLink {
-                        Text("Screen 2")
-                    } label: {
-                        ZStack {
-                            Rectangle()
-                                .frame(width: 316,height: 38)
-                                .foregroundColor(.white)
-                                .padding(.bottom, 1.0)
-                                .background(Color.black)
-                            HStack {
-                                Image(systemName: "creditcard")
-                                    .foregroundColor(.black)
-                                    .padding(.leading)
-                                    .padding(.top)
-                                Text("Payement Method")
-                                    .foregroundColor(.black)
-                                    .font(.custom("AirbnbCereal_W_Lt", size: 15))
-                                    .tracking(2)
-                                    .padding()
-                                    .padding(.top)
-                                Spacer()
-                            }.frame(width: 316,height: 38)
-                        }
-                    }.padding(5)
-                    NavigationLink {
-                        Text("ee")
+                        Text("Coming Later")
                     } label: {
                         ZStack {
                             Rectangle()
@@ -156,11 +132,54 @@ struct ProfileView: View {
                             }.frame(width: 316,height: 38)
                         }
                     }.padding(5)
+                    NavigationLink {
+                        Button {
+                            delete_account()
+                        } label: {
+                            Text("are you sure ?")
+                        }.buttonStyle(CustomButtonStyle())
+                            
+
+                    } label: {
+                        ZStack {
+                            Rectangle()
+                                .frame(width: 316,height: 38)
+                                .foregroundColor(.white)
+                                .padding(.bottom, 1.0)
+                                .background(Color.black)
+                            HStack {
+                                Image(systemName: "hand.raised")
+                                    .foregroundColor(.red)
+                                    .padding(.leading)
+                                    .padding(.top)
+                                Text("Delete my account")
+                                    .foregroundColor(.red)
+                                    .font(.custom("AirbnbCereal_W_Lt", size: 15))
+                                    .tracking(2)
+                                    .padding()
+                                    .padding(.top)
+                                Spacer()
+                            }.frame(width: 316,height: 38)
+                        }
+                    }.padding(5)
                 }
                 Spacer()
             }
         }
     }
+    func delete_account(){
+        let user = Auth.auth().currentUser
+        logout()
+        user?.delete { error in
+          if let error = error {
+            // An error happened.
+              print("\(error)")
+          } else {
+            // Account deleted.
+          }
+        }
+    }
+    
     func logout() {
             do {
                 try Auth.auth().signOut()

@@ -100,8 +100,10 @@ struct AddCleanerView: View {
                 minimalistTextField(link: $cleanerLanguage, placeholderText: "Native language of the cleaner")
                     .padding(.bottom,20)
                 Button {
-                    create_cleaner(email: cleanerEmail, name: cleanerName, phone: cleanerPhone, language: cleanerLanguage,image: selectedImage)
-                    presentationMode.wrappedValue.dismiss()
+                    if (validForm()){
+                        create_cleaner(email: cleanerEmail, name: cleanerName, phone: cleanerPhone, language: cleanerLanguage,image: selectedImage)
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 } label: {
                     Text("Confirm")
                         .frame(width: 175,height: 63)
@@ -118,6 +120,10 @@ struct AddCleanerView: View {
             .sheet(isPresented: $isSheetshowing, content: {ImagePicker(selectedImage: $selectedImage, isSheetShowing: $isSheetshowing)})
         
     }
+    private func validForm() -> Bool{
+        return (cleanerEmail.count > 5 && cleanerName.count > 3 && !cleanerPhone.isEmpty && cleanerLanguage.count > 5)
+    }
+    
     private func create_cleaner(email:String,name:String,phone:String,language:String,image:UIImage?){
         var ref: DocumentReference? = nil
         let cleaner = cleaner(name: name,phone: phone,email: email,language: language,image: image,id:"")

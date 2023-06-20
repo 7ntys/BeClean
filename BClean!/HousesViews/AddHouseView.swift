@@ -86,11 +86,13 @@ struct AddHouseView: View {
                 minimalistTextField(link: $houseAbbreviation, placeholderText: "Abbreviation of the property")
                 minimalistTextField(link: $houseAddress, placeholderText: "Address of the property")
                 minimalistTextField(link: $houseDefaultCleanTime, placeholderText: "Default clean time of the property")
-                minimalistTextField(link: $icalLink, placeholderText: "Url of the ical of the house")
+                minimalistTextField(link: $icalLink, placeholderText: "Ical url of the house")
                     .padding(.bottom,20)
                 Button {
-                    create_house(selectedImage: selectedImage, houseName: houseName, houseAbbreviation: houseAbbreviation, houseAddress: houseAddress, houseDefaultCleanTime: houseDefaultCleanTime,icalLink: icalLink)
-                    presentationMode.wrappedValue.dismiss()
+                    if (validForm()){
+                        create_house(selectedImage: selectedImage, houseName: houseName, houseAbbreviation: houseAbbreviation, houseAddress: houseAddress, houseDefaultCleanTime: houseDefaultCleanTime,icalLink: icalLink)
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 } label: {
                     Text("Confirm")
                         .frame(width: 175,height: 63)
@@ -107,6 +109,10 @@ struct AddHouseView: View {
             .sheet(isPresented: $isSheetshowing, content: {ImagePicker(selectedImage: $selectedImage, isSheetShowing: $isSheetshowing)})
         
     }
+    func validForm() -> Bool{
+        return (!icalLink.isEmpty && houseName.count > 3 && houseAddress.count > 8 && !houseDefaultCleanTime.isEmpty && houseAbbreviation.count < 4)
+    }
+    
     func create_house(selectedImage:UIImage?,houseName:String,houseAbbreviation:String,houseAddress:String, houseDefaultCleanTime:String ,icalLink:String){
         var ref: DocumentReference? = nil
         let property = house(name: houseName,abreviation: houseAbbreviation,picture: selectedImage,clean_time: houseDefaultCleanTime,address: houseAddress,id:"",icalLink: icalLink)
@@ -115,7 +121,7 @@ struct AddHouseView: View {
         var add:[String:Any]
         if let imageData = selectedImage?.jpegData(compressionQuality: 0.1){
             add = ["name":property.name,
-                   "abreviaton":property.abreviation,
+                   "abreviation":property.abreviation,
                    "clean_time":property.clean_time,
                    "address":property.address,
                     "image":imageData,
@@ -124,7 +130,7 @@ struct AddHouseView: View {
         }
         else{
             add = ["name":property.name,
-                    "abreviaton":property.abreviation,
+                    "abreviation":property.abreviation,
                     "clean_time":property.clean_time,
                     "address":property.address,
                    "icalLink":property.icalLink]
@@ -138,6 +144,8 @@ struct AddHouseView: View {
                 let documentId = ref?.documentID
                 property.id = documentId!
                 userManager.shared.currentUser?.add_house(property: property)
+                
+                userManager.shared.currentUser?.add_events(events: get_infos(url: icalLink, property: property))
             }
         }
         print("This was successfull")

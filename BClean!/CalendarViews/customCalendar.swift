@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 struct customSheet:View{
     @Binding var isSheetPresented:Bool
     @Binding var selectedEvent: Event?
@@ -106,7 +107,7 @@ struct WeeklyCalendarView: View {
                                             self.selectedDate = self.calendar.date(byAdding: .weekOfYear, value: -1, to: self.selectedDate)!
                                         }) {
                                             Image(systemName: "chevron.left")
-                                                .font(.system(size: 20))
+                                                .font(.system(size: 30))
                                                 .foregroundColor(.gray)
                                         }
 
@@ -114,7 +115,7 @@ struct WeeklyCalendarView: View {
                                             self.selectedDate = self.calendar.date(byAdding: .weekOfYear, value: 1, to: self.selectedDate)!
                                         }) {
                                             Image(systemName: "chevron.right")
-                                                .font(.system(size: 20))
+                                                .font(.system(size: 30))
                                                 .foregroundColor(.gray)
                                         }
                                         .padding(.trailing,10)
@@ -148,16 +149,29 @@ struct WeeklyCalendarView: View {
                                                         isSheetPresented = true
                                                     } label: {
                                                         ZStack {
-                                                            if index_event.cleaner == nil {
-                                                                Circle()
-                                                                    .frame(width: 51,height: 51)
-                                                                    .foregroundColor(.red)
+                                                            if index_event.property.picture != nil {
+                                                                Image(uiImage: index_event.property.picture!)
+                                                                    .resizable()
+                                                                    .frame(width: 50,height: 50)
+                                                                    .aspectRatio(contentMode: .fit)
+                                                                    .clipShape(Circle())
                                                             }
-                                                            Image(uiImage: index_event.property.picture!)
-                                                                .resizable()
-                                                                .frame(width: 50,height: 50)
-                                                                .aspectRatio(contentMode: .fit)
-                                                                .clipShape(Circle())
+                                                            else if index_event.property.abreviation.count > 0{
+                                                                ZStack{
+                                                                    Circle()
+                                                                        .frame(width: 50,height: 50)
+                                                                        .foregroundColor(.blue)
+                                                                        .opacity(0.6)
+                                                                    Text("\(index_event.property.abreviation)")
+                                                                        .foregroundColor(.white)
+                                                                }
+                                                            }
+                                                            else{
+                                                                Circle()
+                                                                    .frame(width: 50,height: 50)
+                                                                    .foregroundColor(.green)
+                                                                    .opacity(0.6)
+                                                            }
                                                             if index_event.cleaner == nil {
                                                                 Circle()
                                                                     .frame(width: 50,height: 50)
@@ -172,7 +186,12 @@ struct WeeklyCalendarView: View {
                                             
                                         }
                                         .frame(maxWidth: .infinity)
-                                        .sheet(isPresented: $isSheetPresented){
+                                        .sheet(isPresented: $isSheetPresented,onDismiss : {
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                                print("ici")
+                                                update_view()
+                                            }
+                                        }){
                                             customSheet(isSheetPresented: $isSheetPresented,selectedEvent: $selectedEvent)
                                         }
                                     }
@@ -200,7 +219,7 @@ struct WeeklyCalendarView: View {
                     Spacer()
                 }
     private func update_view(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             events = userManager.shared.currentUser?.eventStore ?? []
         }
 }

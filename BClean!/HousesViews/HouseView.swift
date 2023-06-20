@@ -67,11 +67,13 @@ struct HouseView: View {
                 }
                 Spacer()
             }
-        }.onAppear{self.update_view()}
+        }.onAppear{
+            update_view()
+            
+        }
     }
     private func update_view(){
-        currUser = userManager.shared.currentUser
-        if currUser?.properties != nil{properties = currUser!.properties}
+        properties = userManager.shared.currentUser?.properties ?? []
     }
 }
 

@@ -108,19 +108,19 @@ struct LoginView: View {
                                         update_house(documentId: documentId)
                                         //Loading the events
                                         //A changer !!! 
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                               // Code to be executed after 3 seconds
                                               // Put your desired code here
                                             update_events(documentId: documentId)
                                           }
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                             userManager.shared.currentUser?.print_events()
                                             test()
                                         }
                                     }
                                 }
                         }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
                     isLoginActive = true
                 }
             }
@@ -135,7 +135,7 @@ struct LoginView: View {
                 // `querySnapshot` contient tous les documents de la sous-collection
                 for document in querySnapshot!.documents {
                     let name = document.get("name") as? String ?? ""
-                    let adress = document.get("adress") as? String ?? ""
+                    let adress = document.get("address") as? String ?? ""
                     let abreviation = document.get("abreviation") as? String ?? ""
                     let clean_time = document.get("clean_time") as? String ?? ""
                     let icalLink = document.get("icalLink") as? String ?? ""

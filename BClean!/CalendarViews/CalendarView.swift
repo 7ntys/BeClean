@@ -55,7 +55,7 @@ struct CalendarViews: View {
                     .padding(.top,0)
                 
             }
-            Text("Simply drag and drop the new reservations onto a cleaner. To have more information about a reservation, simply tap on it. ")
+            Text("Simply tap the new reservations and assign it to a cleaner. You will also have more informations about the reservations shown. ")
                 .font(.custom("AirbnbCereal_W_Lt", size: 10))
                 .padding(.horizontal)
                 .padding(.top,0)
@@ -142,7 +142,7 @@ struct CalendarViews: View {
                 if menage.cleaner != nil && menage.endDate!.compare(Date()) == .orderedDescending{
                     var toPhoneNumber = "\(menage.cleaner!.phone)"
                     print("\(toPhoneNumber)")
-                    var message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at \(menage.property.name). Please contact your employer if you are available."
+                    let message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at \(menage.property.name) (\(menage.property.address). Please contact your employer if you are available."
                     let toSend = translateMessage(text: message, worker: menage.cleaner!) { translatedMessage in
                         print("Translated : \(translatedMessage)")
                         let parameters: [String: Any] = [

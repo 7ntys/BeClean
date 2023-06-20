@@ -52,11 +52,10 @@ struct CleanersView: View {
                 }
                 Spacer()
             }
-        }.onAppear{self.update_view()}
+        }.onAppear{update_view()}
     }
     private func update_view(){
-        currUser = userManager.shared.currentUser
-        if currUser?.cleaners != nil{cleaners = currUser!.cleaners}
+        cleaners = userManager.shared.currentUser?.cleaners ?? []
     }
 }
 

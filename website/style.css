@@ -1,0 +1,49 @@
+body{
+    text-align: center;
+    font-family: Raleway, serif;
+}
+h1{
+    color:#FFB37B;
+    font-family: Raleway ,serif;
+    font-weight: bold;
+    font-style: italic;
+}
+p{
+    font-family: Raleway ,serif;
+}
+.red{
+    color: #DE3654;
+}
+#presentation{
+    background-color: #DE3654;
+    color: white;
+    border: white 10px;
+    border-radius: 20px;
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+#presentation h2{
+    color: #FFB37B;
+}
+#FAQ h2{
+    color: black;
+    font-size: 30px;
+}
+.question{
+    background-color: #FFB37B;
+    border-radius: 20px;
+    color: white;
+    padding-bottom: 20px;
+    font-size: 25px;
+}
+.question h3{
+    color: #DE3654;
+    font-weight: bold;
+}
+.question p {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.question .red{
+    font-weight: bold;
+}

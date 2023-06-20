@@ -91,8 +91,13 @@ struct AddCleanerView: View {
                         .padding(.bottom, 1.0)
                         .background(Color.black)
                     iPhoneNumberField("Phone number of the cleaner",text: $cleanerPhone)
+                        .autofillPrefix(true)
+                        .defaultRegion("France")
+                        .formatted(true)
+                        .maximumDigits(10)
                         .flagHidden(false)
                         .flagSelectable(true)
+                        .autofillPrefix(true)
                         .frame(maxWidth: 316,alignment: .center)
                         .font(.custom("AirbnbCereal_W_Bk", size: 15))
                         

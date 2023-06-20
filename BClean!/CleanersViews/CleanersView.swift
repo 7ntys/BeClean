@@ -42,13 +42,15 @@ struct CleanersView: View {
                     }
                     
                 }
-                VStack {
-                    if (cleaners.count > 0 ){
-                        ForEach(cleaners, id: \.self) { clean in
-                            CleanerPresentation(cleanerName: clean.name, cleanerEmail: clean.email, cleanerLanguage: clean.language, cleanerPay: "To come later",image: clean.picture).padding(.vertical,0)
+                ScrollView {
+                    VStack {
+                        if (cleaners.count > 0 ){
+                            ForEach(cleaners, id: \.self) { clean in
+                                CleanerPresentation(cleanerName: clean.name, cleanerEmail: clean.email, cleanerLanguage: clean.language, cleanerPay: "To come later",image: clean.picture).padding(.vertical,0)
+                            }
                         }
+                        else{Text("Nothing Here")}
                     }
-                    else{Text("Nothing Here")}
                 }
                 Spacer()
             }

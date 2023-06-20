@@ -57,13 +57,15 @@ struct HouseView: View {
                     }
 
                 }
-                VStack {
-                    if (properties.count > 0 ){
-                        ForEach(properties, id: \.self) { maison in
-                            HousePresentation(houseName: maison.name, houseAddress: maison.address, houseDefaultCleaningTime: maison.clean_time, housePrefferredCleaner: "to come later",image: maison.picture)
+                ScrollView {
+                    VStack {
+                        if (properties.count > 0 ){
+                            ForEach(properties, id: \.self) { maison in
+                                HousePresentation(houseName: maison.name, houseAddress: maison.address, houseDefaultCleaningTime: maison.clean_time, housePrefferredCleaner: "to come later",image: maison.picture)
+                            }
                         }
+                        else{Text("Nothing Here")}
                     }
-                    else{Text("Nothing Here")}
                 }
                 Spacer()
             }

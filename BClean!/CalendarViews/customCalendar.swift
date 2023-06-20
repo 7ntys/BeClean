@@ -127,79 +127,89 @@ struct WeeklyCalendarView: View {
                                 }
                                 if refresh_reservation {
                                     
-                                HStack(spacing: 8) {
-                                    ForEach(0..<7) { dayIndex in
-                                        let date = self.calendar.date(byAdding: .day, value: dayIndex, to: weekStartDate)!
-                                        // Filter events for the current day
-                                        let dayEvents = events.filter { event in
-                                            return calendar.isDate(event.endDate!, inSameDayAs: date)
-                                        }
-                                        VStack(spacing: 4) {
-                                            Text("\(self.calendar.shortWeekdaySymbols[self.calendar.component(.weekday, from: date)-1])")
-                                                .font(.system(size: 14, weight: .semibold))
-                                                .foregroundColor(.accentColor)
-                                            
-                                            Text("\(self.calendar.component(.day, from: date))")
-                                                .font(.system(size: 18, weight: .medium))
-                                                .foregroundColor(date == Date() ? .accentColor : .primary)
-                                                .padding(.bottom,20)
-                                            if dayEvents.count >= 1 {
-                                                ForEach(dayEvents) { index_event in
-                                                    Button {
-                                                        selected = index_event.endDate!
-                                                        selectedEvent = index_event
-                                                        isSheetPresented = true
-                                                    } label: {
-                                                        ZStack {
-                                                            if index_event.property.picture != nil {
-                                                                Image(uiImage: index_event.property.picture!)
-                                                                    .resizable()
-                                                                    .frame(width: 50,height: 50)
-                                                                    .aspectRatio(contentMode: .fit)
-                                                                    .clipShape(Circle())
-                                                            }
-                                                            else if index_event.property.abreviation.count > 0{
-                                                                ZStack{
-                                                                    Circle()
-                                                                        .frame(width: 50,height: 50)
-                                                                        .foregroundColor(.blue)
-                                                                        .opacity(0.6)
-                                                                    Text("\(index_event.property.abreviation)")
-                                                                        .foregroundColor(.white)
+                                    ScrollView {
+                                        VStack {
+                                            HStack(spacing: 8) {
+                                            ForEach(0..<7) { dayIndex in
+                                                let date = self.calendar.date(byAdding: .day, value: dayIndex, to: weekStartDate)!
+                                                // Filter events for the current day
+                                                let dayEvents = events.filter { event in
+                                                    return calendar.isDate(event.endDate!, inSameDayAs: date)
+                                                }
+                                                VStack(spacing: 4) {
+                                                    Text("\(self.calendar.shortWeekdaySymbols[self.calendar.component(.weekday, from: date)-1])")
+                                                        .font(.system(size: 14, weight: .semibold))
+                                                        .foregroundColor(.accentColor)
+                                                    
+                                                    Text("\(self.calendar.component(.day, from: date))")
+                                                        .font(.system(size: 18, weight: .medium))
+                                                        .foregroundColor(date == Date() ? .accentColor : .primary)
+                                                        .padding(.bottom,20)
+                                                    if dayEvents.count >= 1 {
+                                                            VStack {
+                                                                ForEach(dayEvents) { index_event in
+                                                                    Button {
+                                                                        selected = index_event.endDate!
+                                                                        selectedEvent = index_event
+                                                                        isSheetPresented = true
+                                                                    } label: {
+                                                                        ZStack {
+                                                                            if index_event.property.picture != nil {
+                                                                                Image(uiImage: index_event.property.picture!)
+                                                                                    .resizable()
+                                                                                    .frame(width: 50,height: 50)
+                                                                                    .aspectRatio(contentMode: .fit)
+                                                                                    .clipShape(Circle())
+                                                                            }
+                                                                            else if index_event.property.abreviation.count > 0{
+                                                                                ZStack{
+                                                                                    Circle()
+                                                                                        .frame(width: 50,height: 50)
+                                                                                        .foregroundColor(.blue)
+                                                                                        .opacity(0.6)
+                                                                                    Text("\(index_event.property.abreviation)")
+                                                                                        .foregroundColor(.white)
+                                                                                }
+                                                                            }
+                                                                            else{
+                                                                                Circle()
+                                                                                    .frame(width: 50,height: 50)
+                                                                                    .foregroundColor(.green)
+                                                                                    .opacity(0.6)
+                                                                            }
+                                                                            if index_event.cleaner == nil {
+                                                                                Circle()
+                                                                                    .frame(width: 50,height: 50)
+                                                                                    .foregroundColor(.gray)
+                                                                                    .opacity(0.6)
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
-                                                            else{
-                                                                Circle()
-                                                                    .frame(width: 50,height: 50)
-                                                                    .foregroundColor(.green)
-                                                                    .opacity(0.6)
-                                                            }
-                                                            if index_event.cleaner == nil {
-                                                                Circle()
-                                                                    .frame(width: 50,height: 50)
-                                                                    .foregroundColor(.gray)
-                                                                    .opacity(0.6)
-                                                            }
+                                                    }
+                                                    Spacer()
+                                                }
+                                                }
+                                                .frame(maxWidth: .infinity)
+                                                .sheet(isPresented: $isSheetPresented,onDismiss : {
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                                        print("ici")
+                                                        update_view()
+                                                        refresh_reservation = false
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                                                            refresh_reservation = true
                                                         }
                                                     }
+                                                }){
+                                                    customSheet(isSheetPresented: $isSheetPresented,selectedEvent: $selectedEvent)
                                                 }
                                             }
-                                            Spacer()
-                                        }
-                                        }
-                                        .frame(maxWidth: .infinity)
-                                        .sheet(isPresented: $isSheetPresented,onDismiss : {
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                                                print("ici")
-                                                update_view()
-                                            }
-                                        }){
-                                            customSheet(isSheetPresented: $isSheetPresented,selectedEvent: $selectedEvent)
                                         }
                                     }
                                 }
                             }
-                            .frame(width: UIScreen.main.bounds.width - 32, height: 300)
+                            .frame(width: UIScreen.main.bounds.width - 32, height: .infinity)
                             .padding()
                             .background(Color(.systemBackground))
                             .cornerRadius(16)
@@ -215,7 +225,7 @@ struct WeeklyCalendarView: View {
                     }
                 }
                 .animation(.easeInOut)
-                .frame(maxHeight: 300)
+                .frame(maxHeight: .infinity)
             }
                     }
                     Spacer()
@@ -223,8 +233,6 @@ struct WeeklyCalendarView: View {
     private func update_view(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             events = userManager.shared.currentUser?.eventStore ?? []
-            refresh_reservation = false
-            refresh_reservation = true
         }
 }
 

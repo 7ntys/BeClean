@@ -86,6 +86,7 @@ struct WeeklyCalendarView: View {
     @State var selectedEvent:Event?
     @State var selected:Date?
     @State var isSheetPresented:Bool = false
+    @State var refresh_reservation:Bool = true
     var body: some View {
         VStack {
             VStack {
@@ -124,7 +125,8 @@ struct WeeklyCalendarView: View {
                                     .padding(.horizontal, 16)
                                     .padding(.bottom,20)
                                 }
-                                
+                                if refresh_reservation {
+                                    
                                 HStack(spacing: 8) {
                                     ForEach(0..<7) { dayIndex in
                                         let date = self.calendar.date(byAdding: .day, value: dayIndex, to: weekStartDate)!
@@ -183,7 +185,7 @@ struct WeeklyCalendarView: View {
                                                 }
                                             }
                                             Spacer()
-                                            
+                                        }
                                         }
                                         .frame(maxWidth: .infinity)
                                         .sheet(isPresented: $isSheetPresented,onDismiss : {
@@ -221,6 +223,8 @@ struct WeeklyCalendarView: View {
     private func update_view(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             events = userManager.shared.currentUser?.eventStore ?? []
+            refresh_reservation = false
+            refresh_reservation = true
         }
 }
 

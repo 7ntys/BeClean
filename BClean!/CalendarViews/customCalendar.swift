@@ -154,34 +154,36 @@ struct WeeklyCalendarView: View {
                                                                         isSheetPresented = true
                                                                     } label: {
                                                                         ZStack {
-                                                                            if index_event.property.picture != nil {
-                                                                                Image(uiImage: index_event.property.picture!)
-                                                                                    .resizable()
-                                                                                    .frame(width: 50,height: 50)
-                                                                                    .aspectRatio(contentMode: .fit)
-                                                                                    .clipShape(Circle())
-                                                                            }
-                                                                            else if index_event.property.abreviation.count > 0{
-                                                                                ZStack{
+                                                                            if index_event.property != nil {
+                                                                                if index_event.property.picture != nil {
+                                                                                    Image(uiImage: index_event.property.picture!)
+                                                                                        .resizable()
+                                                                                        .frame(width: 50,height: 50)
+                                                                                        .aspectRatio(contentMode: .fit)
+                                                                                        .clipShape(Circle())
+                                                                                }
+                                                                                else if index_event.property.abreviation.count > 0{
+                                                                                    ZStack{
+                                                                                        Circle()
+                                                                                            .frame(width: 50,height: 50)
+                                                                                            .foregroundColor(.blue)
+                                                                                            .opacity(0.6)
+                                                                                        Text("\(index_event.property.abreviation)")
+                                                                                            .foregroundColor(.white)
+                                                                                    }
+                                                                                }
+                                                                                else{
                                                                                     Circle()
                                                                                         .frame(width: 50,height: 50)
-                                                                                        .foregroundColor(.blue)
+                                                                                        .foregroundColor(.green)
                                                                                         .opacity(0.6)
-                                                                                    Text("\(index_event.property.abreviation)")
-                                                                                        .foregroundColor(.white)
                                                                                 }
-                                                                            }
-                                                                            else{
-                                                                                Circle()
-                                                                                    .frame(width: 50,height: 50)
-                                                                                    .foregroundColor(.green)
-                                                                                    .opacity(0.6)
-                                                                            }
-                                                                            if index_event.cleaner == nil {
-                                                                                Circle()
-                                                                                    .frame(width: 50,height: 50)
-                                                                                    .foregroundColor(.gray)
-                                                                                    .opacity(0.6)
+                                                                                if index_event.cleaner == nil {
+                                                                                    Circle()
+                                                                                        .frame(width: 50,height: 50)
+                                                                                        .foregroundColor(.gray)
+                                                                                        .opacity(0.6)
+                                                                                }
                                                                             }
                                                                         }
                                                                     }

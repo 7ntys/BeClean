@@ -50,58 +50,60 @@ struct AddHouseView: View {
                 }.padding(.leading,20)
                 Spacer()
             }
-            VStack {
-                Button {
-                    isSheetshowing.toggle()
-                } label: {
-                    ZStack {
-                        Circle()
-                            .frame(width: 103,height: 103)
-                            .foregroundStyle((LinearGradient(gradient: Gradient(colors: [Color("orange-gradient"), Color("red-gradient")]), startPoint: .top, endPoint: .bottom)))
-                        if selectedImage == nil{
-                            Image(systemName: "pencil")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 50,height: 50)
-                                .foregroundColor(.white)
-                                .frame(width: 100,height: 100)
-                                .background(Color(.gray))
-                            .clipShape(Circle())
-                        }
-                        else {
-                            Image(uiImage: selectedImage!)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 100,height: 100)
-                                .foregroundColor(.white)
-                                .frame(width: 100,height: 100)
-                                .background(Color(.gray))
-                            .clipShape(Circle())
-                        }
-                    }.padding(.top,0)
-                }
-
-                
-                minimalistTextField(link: $houseName, placeholderText: "Name of the property")
-                minimalistTextField(link: $houseAbbreviation, placeholderText: "Abbreviation of the property")
-                minimalistTextField(link: $houseAddress, placeholderText: "Address of the property")
-                minimalistTextField(link: $houseDefaultCleanTime, placeholderText: "Default clean time of the property")
-                minimalistTextField(link: $icalLink, placeholderText: "Ical url of the house")
-                    .padding(.bottom,20)
-                Button {
-                    if (validForm()){
-                        create_house(selectedImage: selectedImage, houseName: houseName, houseAbbreviation: houseAbbreviation, houseAddress: houseAddress, houseDefaultCleanTime: houseDefaultCleanTime,icalLink: icalLink)
-                        presentationMode.wrappedValue.dismiss()
+            ScrollView {
+                VStack {
+                    Button {
+                        isSheetshowing.toggle()
+                    } label: {
+                        ZStack {
+                            Circle()
+                                .frame(width: 103,height: 103)
+                                .foregroundStyle((LinearGradient(gradient: Gradient(colors: [Color("orange-gradient"), Color("red-gradient")]), startPoint: .top, endPoint: .bottom)))
+                            if selectedImage == nil{
+                                Image(systemName: "pencil")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50,height: 50)
+                                    .foregroundColor(.white)
+                                    .frame(width: 100,height: 100)
+                                    .background(Color(.gray))
+                                .clipShape(Circle())
+                            }
+                            else {
+                                Image(uiImage: selectedImage!)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 100,height: 100)
+                                    .foregroundColor(.white)
+                                    .frame(width: 100,height: 100)
+                                    .background(Color(.gray))
+                                .clipShape(Circle())
+                            }
+                        }.padding(.top,0)
                     }
-                } label: {
-                    Text("Confirm")
-                        .frame(width: 175,height: 63)
-                        .font(.custom("AirbnbCereal_W_Bd", size: 25))
-                }.buttonStyle(GradientBackgroundButton(color1: "light-green-gradient", color2: "dark-green-gradient"))
-                Spacer()
-                
+
                     
+                    minimalistTextField(link: $houseName, placeholderText: "Name of the property")
+                    minimalistTextField(link: $houseAbbreviation, placeholderText: "Abbreviation of the property")
+                    minimalistTextField(link: $houseAddress, placeholderText: "Address of the property")
+                    minimalistTextField(link: $houseDefaultCleanTime, placeholderText: "Default clean time of the property")
+                    minimalistTextField(link: $icalLink, placeholderText: "Ical url of the house")
+                        .padding(.bottom,20)
+                    Button {
+                        if (validForm()){
+                            create_house(selectedImage: selectedImage, houseName: houseName, houseAbbreviation: houseAbbreviation, houseAddress: houseAddress, houseDefaultCleanTime: houseDefaultCleanTime,icalLink: icalLink)
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                    } label: {
+                        Text("Confirm")
+                            .frame(width: 175,height: 63)
+                            .font(.custom("AirbnbCereal_W_Bd", size: 25))
+                    }.buttonStyle(GradientBackgroundButton(color1: "light-green-gradient", color2: "dark-green-gradient"))
+                    Spacer()
                     
+                        
+                        
+                }
             }
             Spacer()
         }.navigationBarTitle("")

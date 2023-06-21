@@ -146,8 +146,11 @@ struct AddHouseView: View {
                 let documentId = ref?.documentID
                 property.id = documentId!
                 userManager.shared.currentUser?.add_house(property: property)
-                
-                userManager.shared.currentUser?.add_events(events: get_infos(url: icalLink, property: property))
+                let menage = get_infos(url: icalLink, property: property)
+                menage.forEach { thing in
+                    add_event_db(event: thing)
+                }
+                userManager.shared.currentUser?.add_events(events:menage )
             }
         }
         print("This was successfull")

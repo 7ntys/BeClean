@@ -135,7 +135,7 @@ struct CalendarViews: View {
     func sendMessage(){
         formatter.dateFormat = "yyyy-MM-dd"
         let accountSID="AC7cd15eb5e9e12c2d1a9e5d4908911b61"
-        let authToken="0de0be1c2fab05eef6d2e18c9ad5d2ca"
+        let authToken="c637a3d5abc6d6f2f48f0b60e722e55a"
         let fromPhoneNumber = "+14068047148"
         if let events = userManager.shared.currentUser?.eventStore{
             events.forEach { menage in
@@ -173,7 +173,7 @@ final class GPTHelper: ObservableObject{
     init(){}
     private var client: OpenAISwift?
     func setup(){
-        client = OpenAISwift(authToken: "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")
+        client = OpenAISwift(authToken: "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")
     }
     func send(text:String,completion: @escaping(String) -> Void){
         client?.sendCompletion(with: text,maxTokens: 500) { result in

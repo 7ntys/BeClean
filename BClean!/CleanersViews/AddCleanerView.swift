@@ -18,6 +18,8 @@ struct AddCleanerView: View {
     @State var cleanerEmail:String = ""
     @State var cleanerPhone:String = ""
     @State var cleanerLanguage:String = ""
+    @State var cleanerCountryCode:String = ""
+    @State private var selectedCountryCode: String = ""
     var body: some View {
         VStack{
             ZStack{
@@ -92,21 +94,30 @@ struct AddCleanerView: View {
                             .padding(.bottom, 1.0)
                             .background(Color.black)
                         iPhoneNumberField("Phone number of the cleaner",text: $cleanerPhone)
-                            .autofillPrefix(true)
-                            .defaultRegion("France")
+                            .prefixHidden(false)
+                        //One of those 2 bugs
+                            //Bug .autofillPrefix(true)
                             .formatted(true)
+                        
                             .maximumDigits(10)
                             .flagHidden(false)
                             .flagSelectable(true)
-                            .autofillPrefix(true)
+                            .onEditingEnded { phoneNumber in
+                                cleanerCountryCode = "\(phoneNumber.phoneNumber!.countryCode)"
+                                
+                            }
                             .frame(maxWidth: 316,alignment: .center)
                             .font(.custom("AirbnbCereal_W_Bk", size: 15))
+                        
                             
                     }
                     minimalistTextField(link: $cleanerLanguage, placeholderText: "Native language of the cleaner")
                         .padding(.bottom,20)
                     Button {
                         if (validForm()){
+                            cleanerPhone = "+"+cleanerCountryCode+cleanerPhone
+                            cleanerPhone = cleanerPhone.replacingOccurrences(of: " ", with:"")
+                            print(cleanerPhone)
                             create_cleaner(email: cleanerEmail, name: cleanerName, phone: cleanerPhone, language: cleanerLanguage,image: selectedImage)
                             presentationMode.wrappedValue.dismiss()
                         }
@@ -128,7 +139,7 @@ struct AddCleanerView: View {
         
     }
     private func validForm() -> Bool{
-        return (cleanerEmail.count > 5 && cleanerName.count > 3 && !cleanerPhone.isEmpty && cleanerLanguage.count > 5)
+        return (cleanerEmail.count > 5 && cleanerName.count > 3 && !cleanerPhone.isEmpty && cleanerLanguage.count > 5 && cleanerCountryCode != "nil")
     }
     
     private func create_cleaner(email:String,name:String,phone:String,language:String,image:UIImage?){

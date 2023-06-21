@@ -114,7 +114,6 @@ struct LoginView: View {
                                             update_events(documentId: documentId)
                                           }
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                            userManager.shared.currentUser?.print_events()
                                             test()
                                         }
                                     }
@@ -179,7 +178,9 @@ struct LoginView: View {
                     let language = document.get("language") as? String ?? ""
                     let docuId = document.documentID
                     print("Nom complet : \(name) \(email) \(docuId)")
-                    let cleaner = cleaner(name: name, phone: phone, email: email, language: language,image: nil,id: docuId)
+                    let finalPhone = phone.replacingOccurrences(of: " ", with:"")
+                    print("the final phone is \(finalPhone)")
+                    let cleaner = cleaner(name: name, phone: finalPhone, email: email, language: language,image: nil,id: docuId)
                     // Check if image data exists in the document
                     if let imageData = document.get("image") as? Data {
                         // Convert image data to UIImage

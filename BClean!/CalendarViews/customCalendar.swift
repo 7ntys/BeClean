@@ -149,9 +149,11 @@ struct WeeklyCalendarView: View {
                                                             VStack {
                                                                 ForEach(dayEvents) { index_event in
                                                                     Button {
-                                                                        selected = index_event.endDate!
-                                                                        selectedEvent = index_event
-                                                                        isSheetPresented = true
+                                                                        if !index_event.isConfirmed {
+                                                                            selected = index_event.endDate!
+                                                                            selectedEvent = index_event
+                                                                            isSheetPresented = true
+                                                                        }
                                                                     } label: {
                                                                         ZStack {
                                                                             if index_event.property != nil {
@@ -183,6 +185,12 @@ struct WeeklyCalendarView: View {
                                                                                         .frame(width: 50,height: 50)
                                                                                         .foregroundColor(.gray)
                                                                                         .opacity(0.6)
+                                                                                }
+                                                                                if index_event.cleaner != nil && index_event.isConfirmed{
+                                                                                    Circle()
+                                                                                        .frame(width: 50,height: 50)
+                                                                                        .foregroundColor(.green)
+                                                                                        .opacity(0.4)
                                                                                 }
                                                                             }
                                                                         }

@@ -18,6 +18,7 @@ struct AddHouseView: View {
     @State var houseAddress:String = ""
     @State var houseDefaultCleanTime:String = ""
     @State var icalLink:String = ""
+    @State var requirements:String = ""
     
     var body: some View {
         VStack{
@@ -81,7 +82,10 @@ struct AddHouseView: View {
                             }
                         }.padding(.top,0)
                     }
-
+                    Text(requirements)
+                        .foregroundColor(.red)
+                        .fontWeight(.bold)
+                        .padding(.horizontal)
                     
                     minimalistTextField(link: $houseName, placeholderText: "Name of the property")
                     minimalistTextField(link: $houseAbbreviation, placeholderText: "Abbreviation of the property")
@@ -92,7 +96,11 @@ struct AddHouseView: View {
                     Button {
                         if (validForm()){
                             create_house(selectedImage: selectedImage, houseName: houseName, houseAbbreviation: houseAbbreviation, houseAddress: houseAddress, houseDefaultCleanTime: houseDefaultCleanTime,icalLink: icalLink)
+                            requirements = ""
                             presentationMode.wrappedValue.dismiss()
+                        }
+                        else{
+                            requirements = "Verify that : Icallink not empty, Name > 3 , Address > 8, Clean time not empty, Abreviation < 4"
                         }
                     } label: {
                         Text("Confirm")
@@ -150,7 +158,6 @@ struct AddHouseView: View {
                 menage.forEach { thing in
                     add_event_db(event: thing)
                 }
-                userManager.shared.currentUser?.add_events(events:menage )
             }
         }
         print("This was successfull")

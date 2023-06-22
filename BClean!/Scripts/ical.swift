@@ -20,9 +20,11 @@ class Event:Hashable,Identifiable{
     var id:String
     let property:house
     var cleaner:cleaner?
-    init(summary:String?,location:String?,startDate:Date?,endDate:Date?,id:String,property:house,cleaner:cleaner?){
+    var isConfirmed:Bool
+    init(summary:String?,location:String?,startDate:Date?,endDate:Date?,id:String,property:house,cleaner:cleaner?,isConfirmed:Bool){
         self.summary = summary
         self.location = location
+        self.isConfirmed = isConfirmed
         self.startDate = startDate
         self.endDate = endDate
         self.id = id
@@ -53,7 +55,7 @@ func get_infos(url:String,property:house) -> [Event]{
 
         // Parcourir chaque ligne pour extraire les données d'événement
         var events = [Event]()
-        var currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil)
+        var currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: false)
         for line in lines ?? [] {
             if line.hasPrefix("SUMMARY:") {
                 currentEvent.summary = line.replacingOccurrences(of: "SUMMARY:", with: "")
@@ -71,7 +73,7 @@ func get_infos(url:String,property:house) -> [Event]{
                 currentEvent.endDate = dateFormatter.date(from: dateString)
             } else if line == "END:VEVENT" {
                 events.append(currentEvent)
-                currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil)
+                currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: false)
             }
         }
         return events
@@ -105,13 +107,15 @@ func add_event_db(event:Event){
                 add = ["cleaner" : event.cleaner!.id,
                        "endDate" : event.endDate ?? "",
                        "summary" : event.summary ?? "",
-                       "house" : event.property.id
+                       "house" : event.property.id,
+                       "isConfirmed" : false
                 ]
             }
             else{
                 add = ["endDate" : event.endDate ?? "",
                        "summary" : event.summary ?? "",
-                       "house" : event.property.id
+                       "house" : event.property.id,
+                       "isConfirmed":false
                 ]
             }
             ref = users_db.addDocument(data: add){ error in

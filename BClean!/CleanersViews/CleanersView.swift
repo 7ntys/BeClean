@@ -43,21 +43,26 @@ struct CleanersView: View {
                     
                 }
                 ScrollView {
-                    VStack {
-                        if (cleaners.count > 0 ){
-                            ForEach(cleaners, id: \.self) { clean in
-                                CleanerPresentation(cleanerName: clean.name, cleanerEmail: clean.email, cleanerLanguage: clean.language, cleanerPay: "To come later",image: clean.picture).padding(.vertical,0)
+                    if !isLinkActive && update_view(){
+                        VStack {
+                            if (userManager.shared.currentUser != nil){
+                                if (userManager.shared.currentUser!.cleaners.count > 0 ){
+                                    ForEach(userManager.shared.currentUser!.cleaners, id: \.self) { clean in
+                                        CleanerPresentation(cleanerName: clean.name, cleanerEmail: clean.email, cleanerLanguage: clean.language, cleanerPay: "To come later",image: clean.picture).padding(.vertical,0)
+                                    }
+                                }
+                                else{Text("Nothing Here")}
                             }
                         }
-                        else{Text("Nothing Here")}
                     }
                 }
                 Spacer()
             }
         }.onAppear{update_view()}
     }
-    private func update_view(){
+    private func update_view() -> Bool{
         cleaners = userManager.shared.currentUser?.cleaners ?? []
+        return true
     }
 }
 

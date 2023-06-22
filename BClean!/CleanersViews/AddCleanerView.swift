@@ -19,7 +19,8 @@ struct AddCleanerView: View {
     @State var cleanerPhone:String = ""
     @State var cleanerLanguage:String = ""
     @State var cleanerCountryCode:String = ""
-    @State private var selectedCountryCode: String = ""
+    @State private var selectedCountryCode: String = "1"
+    @State var requirements: String = ""
     var body: some View {
         VStack{
             ZStack{
@@ -83,7 +84,10 @@ struct AddCleanerView: View {
                             }
                         }.padding(.top,0)
                     }
-
+                    Text(requirements)
+                        .foregroundColor(.red)
+                        .padding(.vertical)
+                        .fontWeight(.bold)
                     
                     minimalistTextField(link: $cleanerName, placeholderText: "Name of the cleaner")
                     minimalistTextField(link: $cleanerEmail, placeholderText: "Email of the cleaner")
@@ -103,8 +107,9 @@ struct AddCleanerView: View {
                             .flagHidden(false)
                             .flagSelectable(true)
                             .onEditingEnded { phoneNumber in
-                                cleanerCountryCode = "\(phoneNumber.phoneNumber!.countryCode)"
-                                
+                                if phoneNumber.phoneNumber != nil {
+                                    cleanerCountryCode = "\(phoneNumber.phoneNumber!.countryCode)"
+                                }
                             }
                             .frame(maxWidth: 316,alignment: .center)
                             .font(.custom("AirbnbCereal_W_Bk", size: 15))
@@ -120,6 +125,9 @@ struct AddCleanerView: View {
                             print(cleanerPhone)
                             create_cleaner(email: cleanerEmail, name: cleanerName, phone: cleanerPhone, language: cleanerLanguage,image: selectedImage)
                             presentationMode.wrappedValue.dismiss()
+                        }
+                        else{
+                            requirements = "Verify that : email > 5, Name > 3 , Phone not empty, language > 5, country code not nil"
                         }
                     } label: {
                         Text("Confirm")

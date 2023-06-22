@@ -207,6 +207,7 @@ struct LoginView: View {
                     let startDate = document.get("startDate") as? Timestamp ?? nil
                     let cleaner = document.get("cleaner") as? String ?? nil
                     let house_id = document.get("house") as? String ?? nil
+                    let isConfirmed = document.get("isConfirmed") as? Bool ?? false
                     let docuId = document.documentID
                     var thing:house? = nil
                     var found_cleaner: cleaner? = nil
@@ -219,7 +220,7 @@ struct LoginView: View {
                         if staff.id == cleaner{found_cleaner=staff}
                     })
                     
-                    let event = Event(summary: summary, location: "", startDate: startDate?.dateValue(), endDate: endDate?.dateValue(), id: docuId, property: thing!,cleaner : found_cleaner)
+                    let event = Event(summary: summary, location: "", startDate: startDate?.dateValue(), endDate: endDate?.dateValue(), id: docuId, property: thing!,cleaner : found_cleaner, isConfirmed: isConfirmed)
                     print("\(event.endDate)")
                     userManager.shared.currentUser?.eventStore.append(event)
                 }

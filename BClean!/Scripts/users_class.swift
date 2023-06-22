@@ -75,5 +75,4 @@ class user{
 class userManager: ObservableObject {
     static let shared = userManager()
     @Published var currentUser: user?
-    
 }

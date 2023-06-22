@@ -59,12 +59,16 @@ struct HouseView: View {
                 }
                 ScrollView {
                     VStack {
-                        if (properties.count > 0 ){
-                            ForEach(properties, id: \.self) { maison in
-                                HousePresentation(houseName: maison.name, houseAddress: maison.address, houseDefaultCleaningTime: maison.clean_time, housePrefferredCleaner: "to come later",image: maison.picture)
+                        if !addHouse && update_view(){
+                            if (userManager.shared.currentUser != nil){
+                                if (userManager.shared.currentUser!.properties.count > 0 ){
+                                    ForEach(userManager.shared.currentUser!.properties, id: \.self) { maison in
+                                        HousePresentation(houseName: maison.name, houseAddress: maison.address, houseDefaultCleaningTime: maison.clean_time, housePrefferredCleaner: "to come later",image: maison.picture)
+                                    }
+                                }
+                                else{Text("Nothing Here")}
                             }
                         }
-                        else{Text("Nothing Here")}
                     }
                 }
                 Spacer()
@@ -74,8 +78,9 @@ struct HouseView: View {
             
         }
     }
-    private func update_view(){
+    private func update_view() -> Bool{
         properties = userManager.shared.currentUser?.properties ?? []
+        return true
     }
 }
 

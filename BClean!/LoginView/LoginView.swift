@@ -99,7 +99,7 @@ struct LoginView: View {
                                         let surname = document.get("surname") as? String ?? ""
                                         let documentId = document.documentID
                                         print("créer user : \(name) , \(surname)")
-                                        @State var user = user(name: name, surname: surname,id: documentId)
+                                        @State var user = user(name: name, surname: surname,id: documentId,email: email.lowercased())
                                         userManager.shared.currentUser = user
                                         //Verif
                                         //Recuperation des cleaners :

@@ -82,9 +82,7 @@ struct ProfileView: View {
                             }.frame(width: 316,height: 38)
                         }
                     }.padding(5)
-                    NavigationLink {
-                        TermsAndServicesView()
-                    } label: {
+                    Link(destination: URL(string: "https://www.termsfeed.com/live/f779f75a-040b-4371-ac88-d5a7582fdd3c")!) {
                         ZStack {
                             Rectangle()
                                 .frame(width: 316,height: 38)

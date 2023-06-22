@@ -9,13 +9,15 @@ import Foundation
 import Combine
 class user{
     var name: String
+    var email:String
     private var surname : String
     var id: String
     var properties : [house]
     var cleaners : [cleaner]
     var eventStore: [Event]
-    init(name:String, surname:String,id:String){
+    init(name:String, surname:String,id:String,email:String){
         self.name = name
+        self.email = email
         self.id = id
         self.surname = surname
         self.properties = []

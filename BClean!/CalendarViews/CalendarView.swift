@@ -139,10 +139,10 @@ struct CalendarViews: View {
         let fromPhoneNumber = "+14068047148"
         if let events = userManager.shared.currentUser?.eventStore{
             events.forEach { menage in
-                if menage.cleaner != nil && menage.endDate!.compare(Date()) == .orderedDescending{
+                if menage.cleaner != nil && menage.endDate!.compare(Date()) == .orderedDescending && menage.isConfirmed == false{
                     var toPhoneNumber = "\(menage.cleaner!.phone)"
                     print("\(toPhoneNumber)")
-                    let message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at \(menage.property.name) (\(menage.property.address). Please contact your employer if you are available."
+                    let message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at the house \(menage.property.name) located at (\(menage.property.address). Please clic the link below to either accept or deny the reservation."
                     let toSend = translateMessage(text: message, worker: menage.cleaner!) { translatedMessage in
                         print("Translated : \(translatedMessage)")
                         let parameters: [String: Any] = [

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CleanersView: View {
+    @State var refresh:Bool = false
     @State var isLinkActive:Bool = false
     @ObservedObject var UserManager = userManager.shared
     @State var currUser: user?
@@ -43,12 +44,12 @@ struct CleanersView: View {
                     
                 }
                 ScrollView {
-                    if !isLinkActive && update_view(){
+                    if !isLinkActive && refresh{
                         VStack {
                             if (userManager.shared.currentUser != nil){
                                 if (userManager.shared.currentUser!.cleaners.count > 0 ){
                                     ForEach(userManager.shared.currentUser!.cleaners, id: \.self) { clean in
-                                        CleanerPresentation(cleanerName: clean.name, cleanerEmail: clean.email, cleanerLanguage: clean.language, cleanerPay: "To come later",image: clean.picture).padding(.vertical,0)
+                                        CleanerPresentation(worker: clean).padding(.vertical,0)
                                     }
                                 }
                                 else{Text("Nothing Here")}
@@ -58,7 +59,11 @@ struct CleanersView: View {
                 }
                 Spacer()
             }
-        }.onAppear{update_view()}
+        }.onAppear{
+            refresh = false
+            update_view()
+            refresh = true
+        }
     }
     private func update_view() -> Bool{
         cleaners = userManager.shared.currentUser?.cleaners ?? []

@@ -16,9 +16,11 @@ struct BClean_App: App {
 
 class AppDelegate:UIResponder,UIApplicationDelegate,MessagingDelegate, UNUserNotificationCenterDelegate{
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool {
+        
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
+        
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge]){ success, error in
             guard success else {return}
             print("Succes in APN registry")
@@ -31,23 +33,22 @@ class AppDelegate:UIResponder,UIApplicationDelegate,MessagingDelegate, UNUserNot
         messaging.token { token, _ in
             guard let token = token else{return}
             print("Token : \(token)")
-            TokenManager.shared.connerie = token
             TokenManager.shared.update(device: token)
         }
+    }
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("Registered for Apple Remote Notifications")
+        Messaging.messaging().setAPNSToken(deviceToken, type: .unknown)
+    }
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("application didFailToRegisterForRemoteNotificationsWithError")
     }
 }
 
 class TokenManager: ObservableObject {
     static let shared = TokenManager()
-    @Published var currentToken: String?
     @Published var device: String?
-    @Published var connerie: String?
-    @Published var connerie2: String?
     private init() {}
-
-    func updateDeviceToken(token: String) {
-        self.currentToken = token
-    }
     func update(device:String){
         self.device = device
     }

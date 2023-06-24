@@ -135,7 +135,7 @@ struct CalendarViews: View {
     func sendMessage(){
         formatter.dateFormat = "yyyy-MM-dd"
         let accountSID="AC7cd15eb5e9e12c2d1a9e5d4908911b61"
-        let authToken="c637a3d5abc6d6f2f48f0b60e722e55a"
+        let authToken="bed97d7a1579efed31b4cf1c6b8ac765"
         let fromPhoneNumber = "+14068047148"
         if let events = userManager.shared.currentUser?.eventStore{
             events.forEach { menage in
@@ -145,10 +145,11 @@ struct CalendarViews: View {
                     let message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at the house \(menage.property.name) located at (\(menage.property.address). Please clic the link below to either accept or deny the reservation."
                     let toSend = translateMessage(text: message, worker: menage.cleaner!) { translatedMessage in
                         print("Translated : \(translatedMessage)")
+                        let final = translatedMessage + "https://7ntys.github.io/BeClean/confirmation?id=\(menage.id)"
                         let parameters: [String: Any] = [
                             "From": fromPhoneNumber,
                             "To": toPhoneNumber,
-                            "Body": translatedMessage
+                            "Body": final
                         ]
                         let url = "https://api.twilio.com/2010-04-01/Accounts/\(accountSID)/Messages"
                         // Define the HTTP basic authentication header
@@ -173,7 +174,7 @@ final class GPTHelper: ObservableObject{
     init(){}
     private var client: OpenAISwift?
     func setup(){
-        client = OpenAISwift(authToken: "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")
+        client = OpenAISwift(authToken: "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")
     }
     func send(text:String,completion: @escaping(String) -> Void){
         client?.sendCompletion(with: text,maxTokens: 500) { result in

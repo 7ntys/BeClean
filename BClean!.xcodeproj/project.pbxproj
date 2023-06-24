@@ -20,6 +20,9 @@
 		DE149F3E298EC3CC00F3FA49 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = DE149F3D298EC3CC00F3FA49 /* iPhoneNumberField */; };
 		DE197B5729E080BC00D65ED4 /* test_script.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE197B5629E080BC00D65ED4 /* test_script.swift */; };
 		DE3846C42A1019E4003A4071 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = DE3846C32A1019E4003A4071 /* FSCalendar */; };
+		DE3E73452A45BE6600BA8C2B /* Reset Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E73442A45BE6600BA8C2B /* Reset Password.swift */; };
+		DE3E73472A45CCAB00BA8C2B /* HousePresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E73462A45CCAB00BA8C2B /* HousePresentationView.swift */; };
+		DE3E73492A45D81000BA8C2B /* CleanerPresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E73482A45D81000BA8C2B /* CleanerPresentationView.swift */; };
 		DE5982CC2A26554E0087FDE7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DE5982CB2A26554E0087FDE7 /* Alamofire */; };
 		DE5982CF2A2663270087FDE7 /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = DE5982CE2A2663270087FDE7 /* OpenAISwift */; };
 		DE631C1029F56CCC007D219A /* customCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE631C0F29F56CCC007D219A /* customCalendar.swift */; };
@@ -56,6 +59,9 @@
 		DE149F38298EBB2C00F3FA49 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		DE149F3A298EC20800F3FA49 /* AddCleanerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCleanerView.swift; sourceTree = "<group>"; };
 		DE197B5629E080BC00D65ED4 /* test_script.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_script.swift; sourceTree = "<group>"; };
+		DE3E73442A45BE6600BA8C2B /* Reset Password.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reset Password.swift"; sourceTree = "<group>"; };
+		DE3E73462A45CCAB00BA8C2B /* HousePresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HousePresentationView.swift; sourceTree = "<group>"; };
+		DE3E73482A45D81000BA8C2B /* CleanerPresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanerPresentationView.swift; sourceTree = "<group>"; };
 		DE631C0F29F56CCC007D219A /* customCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customCalendar.swift; sourceTree = "<group>"; };
 		DEA0D7AA295DBF83005A3F22 /* BClean!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BClean!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEA0D7AD295DBF83005A3F22 /* BClean_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BClean_App.swift; sourceTree = "<group>"; };
@@ -204,6 +210,8 @@
 			children = (
 				DEA0D7C0295DC3D9005A3F22 /* CustomViews.swift */,
 				DE149F38298EBB2C00F3FA49 /* ImagePicker.swift */,
+				DE3E73462A45CCAB00BA8C2B /* HousePresentationView.swift */,
+				DE3E73482A45D81000BA8C2B /* CleanerPresentationView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -213,6 +221,7 @@
 			children = (
 				DEA0D7BE295DC061005A3F22 /* LoginView.swift */,
 				DEA0D7D0295DDBDB005A3F22 /* SignupView.swift */,
+				DE3E73442A45BE6600BA8C2B /* Reset Password.swift */,
 			);
 			path = LoginView;
 			sourceTree = "<group>";
@@ -335,8 +344,10 @@
 				DE149F28298C253F00F3FA49 /* HouseView.swift in Sources */,
 				DE149F35298D23B900F3FA49 /* LogoutView.swift in Sources */,
 				DEA0D7D3295E0508005A3F22 /* CalendarView.swift in Sources */,
+				DE3E73472A45CCAB00BA8C2B /* HousePresentationView.swift in Sources */,
 				DE631C1029F56CCC007D219A /* customCalendar.swift in Sources */,
 				DEA0D7D1295DDBDB005A3F22 /* SignupView.swift in Sources */,
+				DE3E73452A45BE6600BA8C2B /* Reset Password.swift in Sources */,
 				DEFEBB032A096DB60069E753 /* cleaner_class.swift in Sources */,
 				DEA0D7C1295DC3D9005A3F22 /* CustomViews.swift in Sources */,
 				DEFEBB012A096CE70069E753 /* house_class.swift in Sources */,
@@ -345,6 +356,7 @@
 				DEA0D7BF295DC061005A3F22 /* LoginView.swift in Sources */,
 				DE149F20298C021000F3FA49 /* ProfileView.swift in Sources */,
 				DE149F2C298C25EC00F3FA49 /* CleanersView.swift in Sources */,
+				DE3E73492A45D81000BA8C2B /* CleanerPresentationView.swift in Sources */,
 				DEFEBAFF2A096C950069E753 /* users_class.swift in Sources */,
 				DE149F39298EBB2C00F3FA49 /* ImagePicker.swift in Sources */,
 				DEA0D7AE295DBF83005A3F22 /* BClean_App.swift in Sources */,

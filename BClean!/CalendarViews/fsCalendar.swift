@@ -37,7 +37,7 @@ struct fsCalendar: View {
                                 .foregroundColor(.blue)
                                 .fontWeight(.bold)
                             if let event = userManager.shared.currentUser?.find_event(date: selectedDate!){
-                                HousePresentation(houseName: event.property.name, houseAddress: event.property.address, houseDefaultCleaningTime: event.property.clean_time, housePrefferredCleaner: "",image: event.property.picture)
+                                HousePresentation(property:event.property)
                                 Menu {
                                     ForEach(userManager.shared.currentUser!.cleaners,id: \.self) { cleaner in
                                         Button {

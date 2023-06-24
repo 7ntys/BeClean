@@ -28,7 +28,7 @@ struct customSheet:View{
                     .font(.custom("AirbnbCereal_W_XBd", size: 20))
                     .foregroundColor(.blue)
                     .fontWeight(.bold)
-                    HousePresentation(houseName: selectedEvent!.property.name, houseAddress: selectedEvent!.property.address, houseDefaultCleaningTime: selectedEvent!.property.clean_time, housePrefferredCleaner: "",image: selectedEvent!.property.picture)
+                HousePresentationCalendar(property: selectedEvent!.property)
                     Menu {
                         ForEach(userManager.shared.currentUser!.cleaners,id: \.self) { cleaner in
                             Button {

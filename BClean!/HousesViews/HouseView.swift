@@ -25,6 +25,7 @@ class HouseViewModel: ObservableObject{
 
 struct HouseView: View {
     @State var addHouse:Bool = false
+    @State var refresh:Bool = false
     @ObservedObject var UserManager = userManager.shared
     @State var currUser: user?
     @State var properties:[house] = (userManager.shared.currentUser?.properties ?? [])
@@ -59,28 +60,32 @@ struct HouseView: View {
                 }
                 ScrollView {
                     VStack {
-                        if !addHouse && update_view(){
+                        if !addHouse && refresh{
+                            let _ = print("La condition est respectée")
                             if (userManager.shared.currentUser != nil){
                                 if (userManager.shared.currentUser!.properties.count > 0 ){
                                     ForEach(userManager.shared.currentUser!.properties, id: \.self) { maison in
-                                        HousePresentation(houseName: maison.name, houseAddress: maison.address, houseDefaultCleaningTime: maison.clean_time, housePrefferredCleaner: "to come later",image: maison.picture)
+                                        HousePresentation(property: maison)
                                     }
                                 }
                                 else{Text("Nothing Here")}
                             }
                         }
+                        else{Text("Please wait")}
                     }
                 }
                 Spacer()
             }
         }.onAppear{
+            refresh = false
             update_view()
-            
+            refresh = true
         }
     }
-    private func update_view() -> Bool{
-        properties = userManager.shared.currentUser?.properties ?? []
-        return true
+    private func update_view(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            properties = userManager.shared.currentUser?.properties ?? []
+        }
     }
 }
 

@@ -41,7 +41,23 @@ struct LoginView: View {
                 VStack {
                     Spacer()
                     TextZone(value: $email, defaultText: "Enter your Email").padding(.bottom,10)
-                    TextZone(value: $password, defaultText: "Enter your password").padding(.bottom,40)
+                    TextZone(value: $password, defaultText: "Enter your password").padding(.bottom,0)
+                    HStack {
+                        Text("Can't remember your password ?")
+                            .foregroundColor(.white)
+                            .font(.custom("AirbnbCereal_W_Bk", size: 13))
+                            .padding(0)
+                        NavigationLink {
+                            Reset_Password()
+                        } label: {
+                            Text("Reset password")
+                                .foregroundColor(.white)
+                                .font(.custom("AirbnbCereal_W_Bd", size: 13))
+                                .padding(0)
+                                .background(.opacity(0))
+                        }
+                    }.padding(.bottom,30)
+                    
                     NavigationLink(isActive: $isLoginActive) {
                         tabView()
                     } label: {
@@ -221,7 +237,6 @@ struct LoginView: View {
                     })
                     
                     let event = Event(summary: summary, location: "", startDate: startDate?.dateValue(), endDate: endDate?.dateValue(), id: docuId, property: thing!,cleaner : found_cleaner, isConfirmed: isConfirmed)
-                    print("\(event.endDate)")
                     userManager.shared.currentUser?.eventStore.append(event)
                 }
             }

@@ -97,13 +97,12 @@ struct AddCleanerView: View {
                             .foregroundColor(.white)
                             .padding(.bottom, 1.0)
                             .background(Color.black)
-                        iPhoneNumberField("Phone number of the cleaner",text: $cleanerPhone)
+                        iPhoneNumberField("Phone number : 6 XX XX XX XX",text: $cleanerPhone)
                             .prefixHidden(false)
                         //One of those 2 bugs
                             //Bug .autofillPrefix(true)
                             .formatted(true)
-                        
-                            .maximumDigits(10)
+                            .maximumDigits(9)
                             .flagHidden(false)
                             .flagSelectable(true)
                             .onEditingEnded { phoneNumber in
@@ -120,7 +119,9 @@ struct AddCleanerView: View {
                         .padding(.bottom,20)
                     Button {
                         if (validForm()){
-                            cleanerPhone = "+"+cleanerCountryCode+cleanerPhone
+                            if cleanerPhone.first! != "+"{
+                                cleanerPhone = "+"+cleanerCountryCode+cleanerPhone
+                            }
                             cleanerPhone = cleanerPhone.replacingOccurrences(of: " ", with:"")
                             print(cleanerPhone)
                             create_cleaner(email: cleanerEmail, name: cleanerName, phone: cleanerPhone, language: cleanerLanguage,image: selectedImage)

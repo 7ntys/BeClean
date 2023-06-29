@@ -15,6 +15,7 @@ class user{
     var properties : [house]
     var cleaners : [cleaner]
     var eventStore: [Event]
+    var Subscribe:String?
     init(name:String, surname:String,id:String,email:String){
         self.name = name
         self.email = email
@@ -23,6 +24,7 @@ class user{
         self.properties = []
         self.cleaners = []
         self.eventStore = []
+        self.Subscribe = nil
     }
     
     func add_house(property:house){

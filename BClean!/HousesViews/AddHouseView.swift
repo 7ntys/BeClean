@@ -155,7 +155,7 @@ struct AddHouseView: View {
                 property.id = documentId!
                 userManager.shared.currentUser?.add_house(property: property)
                 let menage = get_infos(url: icalLink, property: property)
-                menage.forEach { thing in
+                menage?.forEach { thing in
                     add_event_db(event: thing)
                 }
             }

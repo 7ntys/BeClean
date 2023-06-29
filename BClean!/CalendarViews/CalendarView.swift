@@ -41,6 +41,13 @@ struct tabView: View{
 struct CalendarViews: View {
     @State var sheetShowed:Bool = false
     @ObservedObject var gpt = GPTHelper()
+    
+    //Alert :
+    @State var titleAlert:String = ""
+    @State var contentAlert:String = ""
+    @State var showAlert:Bool = false
+    
+    //Formatter
     private var formatter = DateFormatter()
     var body: some View {
         VStack{
@@ -112,6 +119,8 @@ struct CalendarViews: View {
                         
                         Spacer()
                     }.presentationDetents([.medium, .large])
+                        .alert(isPresented: $showAlert, content:
+                                {Alert(title: Text(titleAlert),message: Text(contentAlert),dismissButton: .cancel())})
                 }
             WeeklyCalendarView()
             Spacer()
@@ -162,6 +171,9 @@ struct CalendarViews: View {
                             .responseJSON { response in
                               debugPrint(response)
                           }
+                        titleAlert = "✅Les messages ont bien été envoyés"
+                        contentAlert = "Si vos cleaners ne le recoivent pas, vérifier leur numéro de téléphone et le format"
+                        showAlert = true
                     }
                 }
             }

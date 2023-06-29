@@ -23,13 +23,13 @@ struct SignupView: View {
                 Spacer()
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
-                        .frame(width: 150,height: 150)
+                        .frame(width: 100,height: 100)
                         .foregroundColor(.white)
                         .opacity(0.3)
                     Image("logo")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 200,height: 200)
+                        .frame(width: 100,height: 100)
                 }.padding(.top,20)
                 Text(requirements)
                     .foregroundColor(.red)
@@ -89,6 +89,7 @@ struct SignupView: View {
             "Token":TokenManager.shared.device ?? ""
         ]) { err in
             if let err = err {
+                print("erorr")
                 print("Error adding document: \(err)")
             } else {
                 print("Document added with ID: \(ref!.documentID)")

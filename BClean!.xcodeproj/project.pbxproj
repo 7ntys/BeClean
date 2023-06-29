@@ -39,6 +39,9 @@
 		DEA0D7CE295DD06F005A3F22 /* AirbnbCereal_W_Bk.otf in Resources */ = {isa = PBXBuildFile; fileRef = DEA0D7C8295DD06F005A3F22 /* AirbnbCereal_W_Bk.otf */; };
 		DEA0D7D1295DDBDB005A3F22 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0D7D0295DDBDB005A3F22 /* SignupView.swift */; };
 		DEA0D7D3295E0508005A3F22 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0D7D2295E0508005A3F22 /* CalendarView.swift */; };
+		DEB7737D2A477D960052DBCD /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = DEB7737C2A477D960052DBCD /* RevenueCat */; };
+		DEB7737F2A477E9E0052DBCD /* SubscribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB7737E2A477E9E0052DBCD /* SubscribeView.swift */; };
+		DEB773812A478FFE0052DBCD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEB773802A478FFE0052DBCD /* StoreKit.framework */; };
 		DEC166AA2A4333D600C38A37 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = DEC166A92A4333D600C38A37 /* FirebaseMessaging */; };
 		DEC8E7F92A11900C00D8C37A /* fsCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC8E7F82A11900C00D8C37A /* fsCalendar.swift */; };
 		DEE3F64E299BE5DF0031ECC6 /* TermsAndServicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEE3F64D299BE5DF0031ECC6 /* TermsAndServicesView.swift */; };
@@ -63,6 +66,7 @@
 		DE3E73462A45CCAB00BA8C2B /* HousePresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HousePresentationView.swift; sourceTree = "<group>"; };
 		DE3E73482A45D81000BA8C2B /* CleanerPresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanerPresentationView.swift; sourceTree = "<group>"; };
 		DE631C0F29F56CCC007D219A /* customCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customCalendar.swift; sourceTree = "<group>"; };
+		DE9C4B9E2A49BB9B00E48026 /* iPhoneNumberField */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = iPhoneNumberField; path = ../../Downloads/iPhoneNumberField; sourceTree = "<group>"; };
 		DEA0D7AA295DBF83005A3F22 /* BClean!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BClean!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEA0D7AD295DBF83005A3F22 /* BClean_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BClean_App.swift; sourceTree = "<group>"; };
 		DEA0D7B1295DBF84005A3F22 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -78,6 +82,8 @@
 		DEA0D7CF295DD149005A3F22 /* BClean--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BClean--Info.plist"; sourceTree = SOURCE_ROOT; };
 		DEA0D7D0295DDBDB005A3F22 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		DEA0D7D2295E0508005A3F22 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		DEB7737E2A477E9E0052DBCD /* SubscribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeView.swift; sourceTree = "<group>"; };
+		DEB773802A478FFE0052DBCD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		DEC166A72A43323D00C38A37 /* BClean!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BClean!.entitlements"; sourceTree = "<group>"; };
 		DEC8E7F82A11900C00D8C37A /* fsCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fsCalendar.swift; sourceTree = "<group>"; };
 		DEE2CA8F2A41F31600AD4B57 /* BClean! */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "BClean!"; sourceTree = "<group>"; };
@@ -94,10 +100,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEB773812A478FFE0052DBCD /* StoreKit.framework in Frameworks */,
 				DE5982CC2A26554E0087FDE7 /* Alamofire in Frameworks */,
 				DE149F2F298D194700F3FA49 /* FirebaseAuth in Frameworks */,
 				DEC166AA2A4333D600C38A37 /* FirebaseMessaging in Frameworks */,
 				DE149F31298D194700F3FA49 /* FirebaseFirestore in Frameworks */,
+				DEB7737D2A477D960052DBCD /* RevenueCat in Frameworks */,
 				DE3846C42A1019E4003A4071 /* FSCalendar in Frameworks */,
 				DE5982CF2A2663270087FDE7 /* OpenAISwift in Frameworks */,
 				DE149F3E298EC3CC00F3FA49 /* iPhoneNumberField in Frameworks */,
@@ -114,6 +122,7 @@
 				DE149F22298C1F3700F3FA49 /* EditProfileView.swift */,
 				DE149F34298D23B900F3FA49 /* LogoutView.swift */,
 				DEE3F64D299BE5DF0031ECC6 /* TermsAndServicesView.swift */,
+				DEB7737E2A477E9E0052DBCD /* SubscribeView.swift */,
 			);
 			path = Profileviews;
 			sourceTree = "<group>";
@@ -161,6 +170,7 @@
 		DEA0D7A1295DBF82005A3F22 = {
 			isa = PBXGroup;
 			children = (
+				DEB773822A49B9FF0052DBCD /* Packages */,
 				DEEA76B029DEC6E800B12AB8 /* GoogleService-Info.plist */,
 				DEA0D7AC295DBF83005A3F22 /* BClean! */,
 				DEE2CA8F2A41F31600AD4B57 /* BClean! */,
@@ -239,9 +249,18 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		DEB773822A49B9FF0052DBCD /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				DE9C4B9E2A49BB9B00E48026 /* iPhoneNumberField */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		DEC166A82A4333D600C38A37 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DEB773802A478FFE0052DBCD /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -270,6 +289,7 @@
 				DE5982CB2A26554E0087FDE7 /* Alamofire */,
 				DE5982CE2A2663270087FDE7 /* OpenAISwift */,
 				DEC166A92A4333D600C38A37 /* FirebaseMessaging */,
+				DEB7737C2A477D960052DBCD /* RevenueCat */,
 			);
 			productName = "BClean!";
 			productReference = DEA0D7AA295DBF83005A3F22 /* BClean!.app */;
@@ -305,6 +325,7 @@
 				DE3846C22A1019E4003A4071 /* XCRemoteSwiftPackageReference "FSCalendar" */,
 				DE5982CA2A26554E0087FDE7 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				DE5982CD2A2663270087FDE7 /* XCRemoteSwiftPackageReference "OpenAISwift" */,
+				DEB7737B2A477D960052DBCD /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = DEA0D7AB295DBF83005A3F22 /* Products */;
 			projectDirPath = "";
@@ -359,6 +380,7 @@
 				DE3E73492A45D81000BA8C2B /* CleanerPresentationView.swift in Sources */,
 				DEFEBAFF2A096C950069E753 /* users_class.swift in Sources */,
 				DE149F39298EBB2C00F3FA49 /* ImagePicker.swift in Sources */,
+				DEB7737F2A477E9E0052DBCD /* SubscribeView.swift in Sources */,
 				DEA0D7AE295DBF83005A3F22 /* BClean_App.swift in Sources */,
 				DEE3F64E299BE5DF0031ECC6 /* TermsAndServicesView.swift in Sources */,
 				DE149F37298E68D100F3FA49 /* AddHouseView.swift in Sources */,
@@ -494,6 +516,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"BClean!/Preview Content\"";
 				DEVELOPMENT_TEAM = N3C6Q6C7TT;
 				ENABLE_PREVIEWS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "BClean--Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -532,6 +555,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"BClean!/Preview Content\"";
 				DEVELOPMENT_TEAM = N3C6Q6C7TT;
 				ENABLE_PREVIEWS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "BClean--Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -624,6 +648,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		DEB7737B2A477D960052DBCD /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -656,6 +688,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DE5982CD2A2663270087FDE7 /* XCRemoteSwiftPackageReference "OpenAISwift" */;
 			productName = OpenAISwift;
+		};
+		DEB7737C2A477D960052DBCD /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DEB7737B2A477D960052DBCD /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
 		};
 		DEC166A92A4333D600C38A37 /* FirebaseMessaging */ = {
 			isa = XCSwiftPackageProductDependency;

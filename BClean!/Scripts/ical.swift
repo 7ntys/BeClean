@@ -39,48 +39,53 @@ class Event:Hashable,Identifiable{
     
     
 }
-
-func get_infos(url:String,property:house) -> [Event]{
+func get_infos(url:String,property:house) -> [Event]?{
     //A check : async
     // Charger le fichier iCal à partir d'un URL
-    let url:URL = URL(string: url)!
-    do {
-        let data = try Data(contentsOf: url)
-        // Traitement des données
-        // Convertir le fichier iCal en chaîne de caractères
-        let iCalString = String(data: data, encoding: .utf8)
-
-        // Séparer la chaîne de caractères en lignes
-        let lines = iCalString?.components(separatedBy: .newlines)
-
-        // Parcourir chaque ligne pour extraire les données d'événement
-        var events = [Event]()
-        var currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: false)
-        for line in lines ?? [] {
-            if line.hasPrefix("SUMMARY:") {
-                currentEvent.summary = line.replacingOccurrences(of: "SUMMARY:", with: "")
-            } else if line.hasPrefix("LOCATION:") {
-                currentEvent.location = line.replacingOccurrences(of: "LOCATION:", with: "")
-            } else if line.hasPrefix("DTSTART;") {
-                let dateString = line.replacingOccurrences(of: "DTSTART;VALUE=DATE:", with: "")
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyyMMdd"
-                currentEvent.startDate = dateFormatter.date(from: dateString)
-            } else if line.hasPrefix("DTEND;") {
-                let dateString = line.replacingOccurrences(of: "DTEND;VALUE=DATE:", with: "")
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyyMMdd"
-                currentEvent.endDate = dateFormatter.date(from: dateString)
-            } else if line == "END:VEVENT" {
-                events.append(currentEvent)
-                currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: false)
+    if url.isEmpty {return nil}
+    if let url:URL = URL(string: url){
+        do {
+            let data = try Data(contentsOf: url)
+            // Traitement des données
+            // Convertir le fichier iCal en chaîne de caractères
+            let iCalString = String(data: data, encoding: .utf8)
+            
+            // Séparer la chaîne de caractères en lignes
+            let lines = iCalString?.components(separatedBy: .newlines)
+            
+            // Parcourir chaque ligne pour extraire les données d'événement
+            var events = [Event]()
+            var currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: false)
+            for line in lines ?? [] {
+                if line.hasPrefix("SUMMARY:") {
+                    currentEvent.summary = line.replacingOccurrences(of: "SUMMARY:", with: "")
+                } else if line.hasPrefix("LOCATION:") {
+                    currentEvent.location = line.replacingOccurrences(of: "LOCATION:", with: "")
+                } else if line.hasPrefix("DTSTART;") {
+                    let dateString = line.replacingOccurrences(of: "DTSTART;VALUE=DATE:", with: "")
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyyMMdd"
+                    currentEvent.startDate = dateFormatter.date(from: dateString)
+                } else if line.hasPrefix("DTEND;") {
+                    let dateString = line.replacingOccurrences(of: "DTEND;VALUE=DATE:", with: "")
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyyMMdd"
+                    currentEvent.endDate = dateFormatter.date(from: dateString)
+                } else if line == "END:VEVENT" {
+                    events.append(currentEvent)
+                    currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: false)
+                }
             }
+            return events
+        } catch let error {
+            // Traitement de l'erreur
+            print("Erreur : \(error.localizedDescription)")
+            return []
         }
-        return events
-    } catch let error {
-        // Traitement de l'erreur
-        print("Erreur : \(error.localizedDescription)")
-        return []
+    }
+    else{
+        print("error somewhere")
+        return nil
     }
     // Utiliser le tableau d'événements pour effectuer des opérations supplémentaires
     // ...
@@ -132,8 +137,4 @@ func add_event_db(event:Event){
             
         }
     }
-}
-
-func is_event_in_db(event : Event){
-    
 }

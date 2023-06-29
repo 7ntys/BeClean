@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import RevenueCat
 struct HouseModel{
     let id:String = UUID().uuidString
     let name:String
@@ -26,9 +26,13 @@ class HouseViewModel: ObservableObject{
 struct HouseView: View {
     @State var addHouse:Bool = false
     @State var refresh:Bool = false
-    @ObservedObject var UserManager = userManager.shared
     @State var currUser: user?
     @State var properties:[house] = (userManager.shared.currentUser?.properties ?? [])
+    
+    //Alert
+    @State var showAlert:Bool = false
+    @State var conctentAlert:String = ""
+    @State var titleAlert:String = ""
     var body: some View {
         NavigationView {
             VStack{
@@ -51,7 +55,7 @@ struct HouseView: View {
                     Spacer()
                     NavigationLink(destination: AddHouseView(), isActive: $addHouse) {
                         Button {
-                            addHouse = true
+                            conditon_abonnement()
                         } label: {
                             Text("Add house")
                         }.buttonStyle(GradientBackgroundButton(color1: "light-green-gradient", color2: "dark-green-gradient")).padding(.trailing,5)
@@ -73,6 +77,8 @@ struct HouseView: View {
                         }
                         else{Text("Please wait")}
                     }
+                }.alert(isPresented: $showAlert) {
+                    Alert(title: Text(titleAlert),message: Text(conctentAlert),dismissButton: .cancel())
                 }
                 Spacer()
             }
@@ -87,10 +93,63 @@ struct HouseView: View {
             properties = userManager.shared.currentUser?.properties ?? []
         }
     }
+    private func conditon_abonnement(){
+        if  userManager.shared.currentUser?.properties.count == 0 {addHouse = true}
+        else if userManager.shared.currentUser?.Subscribe == nil {
+            titleAlert = "You need to subscribe in order to have more than one property"
+            conctentAlert = "Go to Profile -> Subscribe"
+            showAlert = true
+        }
+        else if userManager.shared.currentUser?.Subscribe == "3.properties" && userManager.shared.currentUser!.properties.count < 3{addHouse = true}
+        else if userManager.shared.currentUser?.Subscribe == "3.properties" && userManager.shared.currentUser!.properties.count == 3{
+            titleAlert = "You need to upgrade your subscription"
+            conctentAlert = "you already have 3 properties"
+            showAlert = true
+        }
+        else if userManager.shared.currentUser!.properties.count < 5 && userManager.shared.currentUser!.Subscribe == "5.properties"{addHouse = true}
+        else if userManager.shared.currentUser!.properties.count == 5 && userManager.shared.currentUser!.Subscribe == "5.properties"{
+            titleAlert = "You need to upgrade your subscription"
+            conctentAlert = "you already have 5 properties"
+            showAlert = true
+        }
+        else if userManager.shared.currentUser!.Subscribe == "infinite.properties"{addHouse = true}
+        else{
+            titleAlert = "There is an error"
+            conctentAlert = "Please contact the owner"
+            showAlert = true
+        }
+    }
 }
 
 struct HouseView_Previews: PreviewProvider {
     static var previews: some View {
         HouseView()
+    }
+}
+
+class RevenueCatHelp{
+    func get_user_info(){
+        Purchases.shared.getCustomerInfo { (purchaserInfo, error) in
+            if let info = purchaserInfo {
+                // Handle the purchaserInfo to determine the user's subscription status
+                if info.entitlements["3.properties"]?.isActive == true {
+                    print("✅le user est abonné")
+                    userManager.shared.currentUser?.Subscribe = "3.properties"
+                }
+                else if info.entitlements["5.properties"]?.isActive == true {
+                    print("✅le user est abonné")
+                    userManager.shared.currentUser?.Subscribe = "5.properties"
+                }
+                else if info.entitlements["infinite.properties"]?.isActive == true {
+                    print("✅le user est abonné")
+                    userManager.shared.currentUser?.Subscribe = "infinite.properties"
+                }
+                else{userManager.shared.currentUser?.Subscribe = nil}
+                // ...
+            } else if let error = error {
+                // Handle the error
+                print("Error fetching purchaserInfo: \(error.localizedDescription)")
+            }
+        }
     }
 }

@@ -2,7 +2,7 @@ import SwiftUI
 import Firebase
 import UserNotifications
 import FirebaseMessaging
-
+import RevenueCat
 @main
 struct BClean_App: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -26,6 +26,7 @@ class AppDelegate:UIResponder,UIApplicationDelegate,MessagingDelegate, UNUserNot
             print("Succes in APN registry")
         }
         application.registerForRemoteNotifications()
+        setup_revenuecat()
         
         return true
     }
@@ -42,6 +43,10 @@ class AppDelegate:UIResponder,UIApplicationDelegate,MessagingDelegate, UNUserNot
     }
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("application didFailToRegisterForRemoteNotificationsWithError")
+    }
+    func setup_revenuecat(){
+        Purchases.logLevel = .debug
+        Purchases.configure(withAPIKey: "appl_LCdQSthBfzEFOUPrWPxlClbaZbT")
     }
 }
 

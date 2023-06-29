@@ -15,6 +15,11 @@ struct LoginView: View {
     @State var isLinkActive = false
     @State var isLoginActive = false
     @State var isLoggedIn = false
+    
+    //Alert
+    @State var showAlert:Bool = false
+    @State var titleAlert:String = ""
+    @State var contentAlert:String = ""
     var body: some View {
         if isLoggedIn{
             tabView()
@@ -93,6 +98,9 @@ struct LoginView: View {
                 
                 
             }
+            .alert(isPresented: $showAlert, content: {
+                Alert(title: Text(titleAlert),message: Text(contentAlert),dismissButton: .cancel())
+            })
             .background((LinearGradient(gradient: Gradient(colors: [Color("orange-gradient"), Color("red-gradient")]), startPoint: .top, endPoint: .bottom)))
             
         }
@@ -100,7 +108,9 @@ struct LoginView: View {
     func login(){
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if error != nil{
-                print(error!.localizedDescription)
+                titleAlert = "There is an error"
+                contentAlert = error!.localizedDescription
+                showAlert = true
             }
             else {
                 print("email : \(email)")
@@ -116,6 +126,8 @@ struct LoginView: View {
                                         let documentId = document.documentID
                                         print("créer user : \(name) , \(surname)")
                                         @State var user = user(name: name, surname: surname,id: documentId,email: email.lowercased())
+                                        let help = RevenueCatHelp()
+                                        help.get_user_info()
                                         userManager.shared.currentUser = user
                                         //Verif
                                         //Recuperation des cleaners :
@@ -176,7 +188,7 @@ struct LoginView: View {
     func test(){
         userManager.shared.currentUser!.properties.forEach({ house in
             var events = get_infos(url: house.icalLink, property: house)
-            events.forEach { thing in
+            events?.forEach { thing in
                 add_event_db(event: thing)
             }
         })

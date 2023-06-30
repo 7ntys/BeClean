@@ -57,6 +57,8 @@ struct customSheet:View{
                             print("No cleaners selected")                                    }
                         else{
                             selectedEvent!.cleaner = selection
+                            selectedEvent!.options = customOptions
+                            selectedEvent!.endDate = customCleanTime
                             print("the cleaner of the event is : \(selectedEvent!.cleaner!.name)")
                             db.collection("users").document(userManager.shared.currentUser!.id).collection("events").document(selectedEvent!.id).setData(["cleaner" : selection!.id,"options":customOptions],merge: true)
                             isSheetPresented = false

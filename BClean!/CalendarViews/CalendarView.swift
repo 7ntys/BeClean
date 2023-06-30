@@ -166,7 +166,10 @@ struct CalendarViews: View {
                     ///Send message
                     var toPhoneNumber = "\(menage.cleaner!.phone)"
                     print("\(toPhoneNumber)")
-                    let message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at the house \(menage.property.name) located at (\(menage.property.address). Please clic the link below to either accept or deny the reservation."
+                    var message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at the house \(menage.property.name) located at (\(menage.property.address). Please clic the link below to either accept or deny the reservation."
+                    if menage.options != nil {
+                        message = message + "Recommandations from the owner : \(menage.options ?? "")."
+                    }
                     let toSend = translateMessage(text: message, worker: menage.cleaner!) { translatedMessage in
                         print("Translated : \(translatedMessage)")
                         let final = translatedMessage + "https://7ntys.github.io/BeClean/confirmation?id=\(menage.id)"

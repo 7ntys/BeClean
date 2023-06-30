@@ -16,7 +16,7 @@ struct AddHouseView: View {
     @State var houseName:String = ""
     @State var houseAbbreviation:String = ""
     @State var houseAddress:String = ""
-    @State var houseDefaultCleanTime:String = ""
+    @State var houseDefaultCleanTime:Date = Date()
     @State var icalLink:String = ""
     @State var requirements:String = ""
     
@@ -90,7 +90,9 @@ struct AddHouseView: View {
                     minimalistTextField(link: $houseName, placeholderText: "Name of the property")
                     minimalistTextField(link: $houseAbbreviation, placeholderText: "Abbreviation of the property")
                     minimalistTextField(link: $houseAddress, placeholderText: "Address of the property")
-                    minimalistTextField(link: $houseDefaultCleanTime, placeholderText: "Default clean time of the property")
+                    DatePicker("Select Date", selection: $houseDefaultCleanTime, displayedComponents: [.hourAndMinute])
+                                    .datePickerStyle(.compact)
+                                    .labelsHidden()
                     minimalistTextField(link: $icalLink, placeholderText: "Ical url of the house")
                         .padding(.bottom,20)
                     Button {
@@ -120,10 +122,10 @@ struct AddHouseView: View {
         
     }
     func validForm() -> Bool{
-        return (!icalLink.isEmpty && houseName.count > 3 && houseAddress.count > 8 && !houseDefaultCleanTime.isEmpty && houseAbbreviation.count < 4)
+        return (!icalLink.isEmpty && houseName.count > 3 && houseAddress.count > 8 && houseAbbreviation.count < 4)
     }
     
-    func create_house(selectedImage:UIImage?,houseName:String,houseAbbreviation:String,houseAddress:String, houseDefaultCleanTime:String ,icalLink:String){
+    func create_house(selectedImage:UIImage?,houseName:String,houseAbbreviation:String,houseAddress:String, houseDefaultCleanTime:Date ,icalLink:String){
         var ref: DocumentReference? = nil
         let property = house(name: houseName,abreviation: houseAbbreviation,picture: selectedImage,clean_time: houseDefaultCleanTime,address: houseAddress,id:"",icalLink: icalLink)
         let users_db = db.collection("users/\(userManager.shared.currentUser!.id)/house")

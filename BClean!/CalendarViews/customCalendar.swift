@@ -12,6 +12,8 @@ struct customSheet:View{
     @Binding var isSheetPresented:Bool
     @Binding var selectedEvent: Event?
     @State var selection:cleaner?
+    @State var customOptions:String = ""
+    @State var customCleanTime:Date = Date()
     let db = Firestore.firestore()
     var formatter = DateFormatter()
     var body:some View{
@@ -29,6 +31,10 @@ struct customSheet:View{
                     .foregroundColor(.blue)
                     .fontWeight(.bold)
                 HousePresentationCalendar(property: selectedEvent!.property)
+                minimalistTextField(link: $customOptions, placeholderText: "If you have custom recommandations")
+                DatePicker("Select Date", selection: $customCleanTime, displayedComponents: [.hourAndMinute])
+                                .datePickerStyle(.compact)
+                                .labelsHidden()
                     Menu {
                         ForEach(userManager.shared.currentUser!.cleaners,id: \.self) { cleaner in
                             Button {
@@ -44,14 +50,15 @@ struct customSheet:View{
                             Text("\(selection!.name)")
                         }
                     }
-
+                
+                Spacer()
                     Button {
                         if selection == nil {
                             print("No cleaners selected")                                    }
                         else{
                             selectedEvent!.cleaner = selection
                             print("the cleaner of the event is : \(selectedEvent!.cleaner!.name)")
-                            db.collection("users").document(userManager.shared.currentUser!.id).collection("events").document(selectedEvent!.id).setData(["cleaner" : selection!.id],merge: true)
+                            db.collection("users").document(userManager.shared.currentUser!.id).collection("events").document(selectedEvent!.id).setData(["cleaner" : selection!.id,"options":customOptions],merge: true)
                             isSheetPresented = false
                         }
                     } label: {
@@ -63,6 +70,7 @@ struct customSheet:View{
             }.presentationDetents([.medium, .large])
                 .onAppear{
                     selection = selectedEvent?.cleaner
+                    customCleanTime = selectedEvent!.endDate!
                 }
         }
         else{

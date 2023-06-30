@@ -95,6 +95,7 @@ struct GradientStrokeButton: View{
 }
 struct minimalistTextField:View{
     @Binding var link:String
+    @State var char:Int?
     @State var placeholderText:String
     var body: some View{
         ZStack{
@@ -103,7 +104,7 @@ struct minimalistTextField:View{
                 .foregroundColor(.white)
                 .padding(.bottom, 1.0)
                 .background(Color.black)
-            TextField(placeholderText, text: $link)
+            TextField(placeholderText, text: $link.max(char ?? 200))
                     .frame(maxWidth: 316,alignment: .center)
                 .font(.custom("AirbnbCereal_W_Bk", size: 15))
                 .foregroundColor(.black)
@@ -112,6 +113,16 @@ struct minimalistTextField:View{
     }
 }
 
+extension Binding where Value == String {
+    func max(_ limit: Int) -> Self {
+        if self.wrappedValue.count > limit {
+            DispatchQueue.main.async {
+                self.wrappedValue = String(self.wrappedValue.dropLast())
+            }
+        }
+        return self
+    }
+}
 
 struct calendarView: UIViewRepresentable{
     let interval: DateInterval

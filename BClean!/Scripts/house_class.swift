@@ -18,19 +18,20 @@ class house:Hashable{
     var abreviation:String
     var address:String
     var picture : UIImage?
-    var clean_time: String
+    var clean_time: Date
     var icalLink:String
 
     func hash(into hasher: inout Hasher) {
             hasher.combine(id)
         }
 
-    init(name: String,abreviation:String,picture:UIImage?,clean_time:String,address:String,id:String,icalLink:String) {
+    init(name: String,abreviation:String,picture:UIImage?,clean_time:Date?,address:String,id:String,icalLink:String) {
         self.name = name
         self.address = address
         self.abreviation = abreviation
         if (picture != nil){self.picture = picture}
-        self.clean_time = clean_time
+        if clean_time != nil {self.clean_time = clean_time!}
+        else{self.clean_time = Date()}
         self.id = id
         self.icalLink = icalLink
     }

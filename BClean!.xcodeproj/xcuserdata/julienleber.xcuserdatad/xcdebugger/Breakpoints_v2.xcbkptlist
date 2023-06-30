@@ -30,10 +30,57 @@
             filePath = "BClean!/CalendarViews/customCalendar.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
             landmarkName = "customSheet"
             landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "EB48EAB4-1955-434F-81CC-4A53D94586C4 - 15e7534da74b1455"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; Foundation.Calendar in variable initialization expression of BClean_.WeeklyCalendarView.calendar : Foundation.Calendar"
+                  moduleName = "BClean!"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/julienleber/XCode%20App/BClean!/BClean!/CalendarViews/customCalendar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "136">
+               </Location>
+               <Location
+                  uuid = "EB48EAB4-1955-434F-81CC-4A53D94586C4 - e57fc6e22c56e4aa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BClean_.WeeklyCalendarView.init() -&gt; BClean_.WeeklyCalendarView"
+                  moduleName = "BClean!"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/julienleber/XCode%20App/BClean!/BClean!/CalendarViews/customCalendar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "320">
+               </Location>
+               <Location
+                  uuid = "EB48EAB4-1955-434F-81CC-4A53D94586C4 - 88a3c6f831be2f96"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BClean_.WeeklyCalendarView.init(titleAlert: Swift.String, contentAlert: Swift.String, showAlert: Swift.Bool, events: Swift.Array&lt;BClean_.Event&gt;, currUser: Swift.Optional&lt;BClean_.user&gt;, selectedEvent: Swift.Optional&lt;BClean_.Event&gt;, selected: Swift.Optional&lt;Foundation.Date&gt;, isSheetPresented: Swift.Bool, refresh_reservation: Swift.Bool) -&gt; BClean_.WeeklyCalendarView"
+                  moduleName = "BClean!"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/julienleber/XCode%20App/BClean!/BClean!/CalendarViews/customCalendar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "268">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

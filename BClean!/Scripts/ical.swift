@@ -20,8 +20,9 @@ class Event:Hashable,Identifiable{
     var id:String
     let property:house
     var cleaner:cleaner?
+    var options:String?
     var isConfirmed:Int
-    init(summary:String?,location:String?,startDate:Date?,endDate:Date?,id:String,property:house,cleaner:cleaner?,isConfirmed:Int){
+    init(summary:String?,location:String?,startDate:Date?,endDate:Date?,id:String,property:house,cleaner:cleaner?,isConfirmed:Int,options:String?){
         self.summary = summary
         self.location = location
         self.isConfirmed = isConfirmed
@@ -29,6 +30,7 @@ class Event:Hashable,Identifiable{
         self.endDate = endDate
         self.id = id
         self.property = property
+        self.options = options
         if cleaner != nil {self.cleaner = cleaner}
     }
     
@@ -56,7 +58,7 @@ func get_infos(url:String,property:house) -> [Event]?{
             
             // Parcourir chaque ligne pour extraire les données d'événement
             var events = [Event]()
-            var currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: 0)
+            var currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: 0,options: nil)
             for line in lines ?? [] {
                 if line.hasPrefix("SUMMARY:") {
                     currentEvent.summary = line.replacingOccurrences(of: "SUMMARY:", with: "")
@@ -80,12 +82,18 @@ func get_infos(url:String,property:house) -> [Event]?{
                     if let modifiedDate = calendar.date(byAdding: dateComponents, to: currentEvent.endDate!) {
                         currentEvent.endDate = modifiedDate
                         print(currentEvent.endDate)
+                        let components = calendar.dateComponents([.hour, .minute], from: property.clean_time)
+                        print(components)
+                        if let final_date = calendar.date(byAdding: components, to: currentEvent.endDate!){
+                            currentEvent.endDate = final_date
+                            print("final ical :\(currentEvent.endDate)")
+                        }
                     } else {
                         print("Failed to modify the date.")
                     }
                 } else if line == "END:VEVENT" {
                     events.append(currentEvent)
-                    currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: 0)
+                    currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: 0,options: nil)
                 }
             }
             return events

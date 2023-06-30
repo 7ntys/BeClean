@@ -164,11 +164,11 @@ struct LoginView: View {
                     let name = document.get("name") as? String ?? ""
                     let adress = document.get("address") as? String ?? ""
                     let abreviation = document.get("abreviation") as? String ?? ""
-                    let clean_time = document.get("clean_time") as? String ?? ""
+                    let clean_time = document.get("clean_time") as? Timestamp ?? nil
                     let icalLink = document.get("icalLink") as? String ?? ""
                     let docuId = document.documentID
                     print("Nom complet : \(name) \(adress)")
-                    let property = house(name: name, abreviation: abreviation, picture: nil, clean_time: clean_time, address: adress,id:docuId, icalLink: icalLink)
+                    let property = house(name: name, abreviation: abreviation, picture: nil, clean_time: clean_time?.dateValue(), address: adress,id:docuId, icalLink: icalLink)
                     
                     // Check if image data exists in the document
                     if let imageData = document.get("image") as? Data {
@@ -236,6 +236,7 @@ struct LoginView: View {
                     let cleaner = document.get("cleaner") as? String ?? nil
                     let house_id = document.get("house") as? String ?? nil
                     let isConfirmed = document.get("isConfirmed") as? Int ?? 0
+                    let options = document.get("options") as? String ?? ""
                     let docuId = document.documentID
                     var thing:house? = nil
                     var found_cleaner: cleaner? = nil
@@ -248,7 +249,7 @@ struct LoginView: View {
                         if staff.id == cleaner{found_cleaner=staff}
                     })
                     
-                    let event = Event(summary: summary, location: "", startDate: startDate?.dateValue(), endDate: endDate?.dateValue(), id: docuId, property: thing!,cleaner : found_cleaner, isConfirmed: isConfirmed)
+                    let event = Event(summary: summary, location: "", startDate: startDate?.dateValue(), endDate: endDate?.dateValue(), id: docuId, property: thing!,cleaner : found_cleaner, isConfirmed: isConfirmed,options: options)
                     userManager.shared.currentUser?.eventStore.append(event)
                 }
             }

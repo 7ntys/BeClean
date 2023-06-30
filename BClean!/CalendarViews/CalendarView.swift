@@ -72,7 +72,9 @@ struct CalendarViews: View {
                 GradientStrokeButton(text: "By Weeks")
                     .padding(.leading,5)
                 Button {
-                    
+                    titleAlert = "Coming Later"
+                    contentAlert = "This functionality is coming in a next update"
+                    showAlert = true
                 } label: {
                     Text("By month")
                 }.buttonStyle(GradientBackgroundButton(color1: "orange-gradient", color2: "red-gradient"))

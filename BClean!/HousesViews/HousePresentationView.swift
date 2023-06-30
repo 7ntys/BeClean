@@ -11,6 +11,12 @@ import FirebaseFirestore
 struct HousePresentation:View{
     @State var isAlertPresented:Bool = false
     @State var property:house
+    private var dateFormatter: DateFormatter {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .none
+            return formatter
+        }
     var body: some View{
         ZStack {
             ZStack{
@@ -69,7 +75,7 @@ struct HousePresentation:View{
                             .padding(.bottom, 1.0)
                             .background(Color.black)
                             .padding(.bottom,5)
-                        Text(property.clean_time)
+                        Text(dateFormatter.string(from: property.clean_time))
                             .font(.custom("AirbnbCereal_W_Bk", size: 13))
                             .padding(.bottom,2)
                             .fontWeight(.bold)
@@ -182,6 +188,12 @@ struct HousePresentation:View{
 struct HousePresentationCalendar:View{
     @State var isAlertPresented:Bool = false
     @State var property:house
+    private var dateFormatter: DateFormatter {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .none
+            return formatter
+        }
     var body: some View{
         ZStack {
             ZStack{
@@ -240,7 +252,7 @@ struct HousePresentationCalendar:View{
                             .padding(.bottom, 1.0)
                             .background(Color.black)
                             .padding(.bottom,5)
-                        Text(property.clean_time)
+                        Text(dateFormatter.string(from: property.clean_time))
                             .font(.custom("AirbnbCereal_W_Bk", size: 13))
                             .padding(.bottom,2)
                             .fontWeight(.bold)
@@ -287,6 +299,7 @@ struct HousePresentationCalendar:View{
                     Button {
                     } label: {
                         Text(property.abreviation)
+                            .font(.custom("AirbnbCereal_W_Bd", size: 8))
                 }.buttonStyle(GradientBackgroundButton(color1: "red-gradient", color2: "red-gradient"))
                     Spacer()
                 }

@@ -14,58 +14,63 @@ struct SubscribeView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {
         ScrollView {
-            VStack{
-                HStack {
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        VStack {
-                            Image(systemName: "chevron.left")
-                                .resizable()
-                                .frame(width: 12,height: 20)
-                                .foregroundColor(.gray)
-                            .padding()
-                        }
-                    }.padding(.leading,20)
+            ZStack {
+                VStack{
                     Spacer()
-                }
-                Button {
-                    if userManager.shared.currentUser?.Subscribe != nil{
-                        titleAlert = "You already subscribed"
-                        contentAlert = "you can't subscribe twice"
-                        showAlert = true
+                    HStack {
+                        Button {
+                            presentationMode.wrappedValue.dismiss()
+                        } label: {
+                            VStack {
+                                Image(systemName: "chevron.left")
+                                    .resizable()
+                                    .frame(width: 12,height: 20)
+                                    .foregroundColor(.gray)
+                                .padding()
+                            }
+                        }.padding(.leading,20)
+                        Spacer()
+                    }.padding(.top,40)
+                    Button {
+                        if userManager.shared.currentUser?.Subscribe != nil{
+                            titleAlert = "You already subscribed"
+                            contentAlert = "you can't subscribe twice"
+                            showAlert = true
+                        }
+                        else{subscribe_infinite_properties()}
+                    } label: {
+                        card_large_business()
                     }
-                    else{subscribe_infinite_properties()}
-                } label: {
-                    card_large_business()
-                }
-                Button {
-                    if userManager.shared.currentUser?.Subscribe != nil{
-                        titleAlert = "You already subscribed"
-                        contentAlert = "you can't subscribe twice"
-                        showAlert = true
+                    Button {
+                        if userManager.shared.currentUser?.Subscribe != nil{
+                            titleAlert = "You already subscribed"
+                            contentAlert = "you can't subscribe twice"
+                            showAlert = true
+                        }
+                        else{subscribe_5_properties()}
+                    } label: {
+                        card_medium_business()
+                            .padding(.top,10)
                     }
-                    else{subscribe_5_properties()}
-                } label: {
-                    card_medium_business()
-                        .padding(.vertical,10)
-                }
-                Button {
-                    if userManager.shared.currentUser?.Subscribe != nil{
-                        titleAlert = "You already subscribed"
-                        contentAlert = "you can't subscribe twice"
-                        showAlert = true
-                    }
-                    else{subscribe_3_properties()}
-                } label: {
-                    card_small_business()
-                }
-                Spacer()
-            }.alert(isPresented: $showAlert) {
-                Alert(title: Text(titleAlert),message: Text(contentAlert),dismissButton: .cancel())
+                    Button {
+                        if userManager.shared.currentUser?.Subscribe != nil{
+                            titleAlert = "You already subscribed"
+                            contentAlert = "you can't subscribe twice"
+                            showAlert = true
+                        }
+                        else{subscribe_3_properties()}
+                    } label: {
+                        card_small_business()
+                            .padding(.top,10)
+                    }.padding(.bottom,100)
+                }.alert(isPresented: $showAlert) {
+                    Alert(title: Text(titleAlert),message: Text(contentAlert),dismissButton: .cancel())
+                }.background(Color("dark-green-gradient")).ignoresSafeArea(.all)
             }
-        }.navigationBarTitle("")
-            .navigationBarHidden(true)
+        }.ignoresSafeArea(.all)
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+
     }
     func subscribe_3_properties(){
         Purchases.shared.getOfferings { offerings, error in

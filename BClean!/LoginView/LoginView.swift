@@ -235,7 +235,7 @@ struct LoginView: View {
                     let startDate = document.get("startDate") as? Timestamp ?? nil
                     let cleaner = document.get("cleaner") as? String ?? nil
                     let house_id = document.get("house") as? String ?? nil
-                    let isConfirmed = document.get("isConfirmed") as? Bool ?? false
+                    let isConfirmed = document.get("isConfirmed") as? Int ?? 0
                     let docuId = document.documentID
                     var thing:house? = nil
                     var found_cleaner: cleaner? = nil

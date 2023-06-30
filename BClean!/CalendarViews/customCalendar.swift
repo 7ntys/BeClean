@@ -81,6 +81,11 @@ struct WeeklyCalendarView: View {
         cal.firstWeekday = 6 // Set first day of week to Monday
         return cal
     }()
+    //Alert
+    @State var titleAlert:String = ""
+    @State var contentAlert:String = ""
+    @State var showAlert:Bool = false
+    //Var
     @State var events: [Event] = (userManager.shared.currentUser?.eventStore ?? [])
     @State var currUser:user?
     @State var selectedEvent:Event?
@@ -149,10 +154,20 @@ struct WeeklyCalendarView: View {
                                                             VStack {
                                                                 ForEach(dayEvents) { index_event in
                                                                     Button {
-                                                                        if !index_event.isConfirmed {
+                                                                        if index_event.isConfirmed == 0 {
                                                                             selected = index_event.endDate!
                                                                             selectedEvent = index_event
                                                                             isSheetPresented = true
+                                                                        }
+                                                                        if index_event.isConfirmed == 1 {
+                                                                            titleAlert = "This reservation is already being taken care of"
+                                                                            contentAlert = "The cleaner \(index_event.cleaner?.name ?? "") will come clean"
+                                                                            showAlert = true
+                                                                        }
+                                                                        if index_event.isConfirmed == 2 {
+                                                                            titleAlert = "This reservation is pending"
+                                                                            contentAlert = "The cleaner \(index_event.cleaner?.name ?? "") is still thinking about it"
+                                                                            showAlert = true
                                                                         }
                                                                     } label: {
                                                                         ZStack {
@@ -164,33 +179,29 @@ struct WeeklyCalendarView: View {
                                                                                         .aspectRatio(contentMode: .fit)
                                                                                         .clipShape(Circle())
                                                                                 }
-                                                                                else if index_event.property.abreviation.count > 0{
-                                                                                    ZStack{
-                                                                                        Circle()
-                                                                                            .frame(width: 50,height: 50)
-                                                                                            .foregroundColor(.blue)
-                                                                                            .opacity(0.6)
-                                                                                        Text("\(index_event.property.abreviation)")
-                                                                                            .foregroundColor(.white)
-                                                                                    }
+                                                                                if (index_event.cleaner == nil || index_event.isConfirmed == 0) && index_event.property.picture == nil{
+                                                                                    Circle()
+                                                                                        .frame(width: 50,height: 50)
+                                                                                        .foregroundColor(.red)
+                                                                                        .opacity(0.6)
                                                                                 }
-                                                                                else{
+                                                                                if index_event.cleaner != nil && index_event.isConfirmed == 1{
                                                                                     Circle()
                                                                                         .frame(width: 50,height: 50)
                                                                                         .foregroundColor(.green)
                                                                                         .opacity(0.6)
                                                                                 }
-                                                                                if index_event.cleaner == nil {
+                                                                                if index_event.cleaner != nil && index_event.isConfirmed == 2{
                                                                                     Circle()
                                                                                         .frame(width: 50,height: 50)
                                                                                         .foregroundColor(.gray)
                                                                                         .opacity(0.6)
                                                                                 }
-                                                                                if index_event.cleaner != nil && index_event.isConfirmed{
-                                                                                    Circle()
-                                                                                        .frame(width: 50,height: 50)
-                                                                                        .foregroundColor(.green)
-                                                                                        .opacity(0.4)
+                                                                                if index_event.property.abreviation.count > 0 {
+                                                                                    ZStack{
+                                                                                        Text("\(index_event.property.abreviation)")
+                                                                                            .foregroundColor(.white)
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         }
@@ -205,10 +216,12 @@ struct WeeklyCalendarView: View {
                                                 .sheet(isPresented: $isSheetPresented,onDismiss : {
                                                     DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                                                         print("ici")
-                                                        update_view()
-                                                        refresh_reservation = false
-                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                                                            refresh_reservation = true
+                                                        if !isSheetPresented{
+                                                            update_view()
+                                                            refresh_reservation = false
+                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                                                                refresh_reservation = true
+                                                            }
                                                         }
                                                     }
                                                 }){
@@ -224,6 +237,8 @@ struct WeeklyCalendarView: View {
                             .background(Color(.systemBackground))
                             .cornerRadius(16)
                             .shadow(color: Color(.systemGray4), radius: 4, x: 0, y: 2)
+                            .alert(isPresented: $showAlert, content:
+                                    {Alert(title: Text(titleAlert),message: Text(contentAlert),dismissButton: .cancel())})
                         }
                     }
                     .padding(.trailing, 16)
@@ -242,7 +257,9 @@ struct WeeklyCalendarView: View {
                 }
     private func update_view(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            events = userManager.shared.currentUser?.eventStore ?? []
+            if !isSheetPresented {
+                events = userManager.shared.currentUser?.eventStore ?? []
+            }
         }
 }
 

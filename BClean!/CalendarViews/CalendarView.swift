@@ -8,6 +8,8 @@
 
 import SwiftUI
 import Alamofire
+import Firebase
+import FirebaseFirestore
 import Foundation
 import OpenAISwift
 struct tabView: View{
@@ -41,7 +43,7 @@ struct tabView: View{
 struct CalendarViews: View {
     @State var sheetShowed:Bool = false
     @ObservedObject var gpt = GPTHelper()
-    
+    let db = Firestore.firestore()
     //Alert :
     @State var titleAlert:String = ""
     @State var contentAlert:String = ""
@@ -82,6 +84,8 @@ struct CalendarViews: View {
                     Text("Notify")
                 }).buttonStyle(GradientBackgroundButton(color1: "light-green-gradient", color2: "dark-green-gradient"))
                     .padding(.trailing,5)
+                    .alert(isPresented: $showAlert, content:
+                            {Alert(title: Text(titleAlert),message: Text(contentAlert),dismissButton: .cancel())})
             }.padding(.vertical,10)
                 .sheet(isPresented: $sheetShowed) {
                     VStack {
@@ -101,7 +105,7 @@ struct CalendarViews: View {
                         Spacer()
                         if let events = userManager.shared.currentUser?.eventStore{
                             ForEach(events, id: \.self) { menage in
-                                if menage.cleaner != nil && menage.endDate!.compare(Date()) == .orderedDescending{
+                                if menage.cleaner != nil && menage.endDate!.compare(Date()) == .orderedDescending && menage.isConfirmed == 0{
                                     Text("Cleaning on : \(formatter.string(from: menage.endDate!)) with \(menage.cleaner!.name) at \(menage.property.name)")
                                         .foregroundColor(.gray)
                                         .font(.custom("AirbnbCereal_W_Lt", size: 11))
@@ -119,8 +123,6 @@ struct CalendarViews: View {
                         
                         Spacer()
                     }.presentationDetents([.medium, .large])
-                        .alert(isPresented: $showAlert, content:
-                                {Alert(title: Text(titleAlert),message: Text(contentAlert),dismissButton: .cancel())})
                 }
             WeeklyCalendarView()
             Spacer()
@@ -139,7 +141,7 @@ struct CalendarViews: View {
     }
 
 
-
+    
     
     func sendMessage(){
         formatter.dateFormat = "yyyy-MM-dd"
@@ -148,7 +150,18 @@ struct CalendarViews: View {
         let fromPhoneNumber = "+14068047148"
         if let events = userManager.shared.currentUser?.eventStore{
             events.forEach { menage in
-                if menage.cleaner != nil && menage.endDate!.compare(Date()) == .orderedDescending && menage.isConfirmed == false{
+                if menage.cleaner != nil && menage.endDate!.compare(Date()) == .orderedDescending && menage.isConfirmed == 0{
+                    
+                    //Change menage to pending :
+                    menage.isConfirmed = 2
+                    db.collection("users").document("\(userManager.shared.currentUser!.id)").collection("events").document("\(menage.id)").updateData(["isConfirmed" : 2]){ err in
+                        if let err = err {
+                            print("Error updating document: \(err)")
+                        } else {
+                            print("Document successfully updated")
+                        }
+                    }
+                    ///Send message
                     var toPhoneNumber = "\(menage.cleaner!.phone)"
                     print("\(toPhoneNumber)")
                     let message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at the house \(menage.property.name) located at (\(menage.property.address). Please clic the link below to either accept or deny the reservation."

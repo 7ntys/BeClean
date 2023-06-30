@@ -20,8 +20,8 @@ class Event:Hashable,Identifiable{
     var id:String
     let property:house
     var cleaner:cleaner?
-    var isConfirmed:Bool
-    init(summary:String?,location:String?,startDate:Date?,endDate:Date?,id:String,property:house,cleaner:cleaner?,isConfirmed:Bool){
+    var isConfirmed:Int
+    init(summary:String?,location:String?,startDate:Date?,endDate:Date?,id:String,property:house,cleaner:cleaner?,isConfirmed:Int){
         self.summary = summary
         self.location = location
         self.isConfirmed = isConfirmed
@@ -43,6 +43,7 @@ func get_infos(url:String,property:house) -> [Event]?{
     //A check : async
     // Charger le fichier iCal à partir d'un URL
     if url.isEmpty {return nil}
+    let calendar = Calendar.current
     if let url:URL = URL(string: url){
         do {
             let data = try Data(contentsOf: url)
@@ -55,7 +56,7 @@ func get_infos(url:String,property:house) -> [Event]?{
             
             // Parcourir chaque ligne pour extraire les données d'événement
             var events = [Event]()
-            var currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: false)
+            var currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: 0)
             for line in lines ?? [] {
                 if line.hasPrefix("SUMMARY:") {
                     currentEvent.summary = line.replacingOccurrences(of: "SUMMARY:", with: "")
@@ -71,9 +72,20 @@ func get_infos(url:String,property:house) -> [Event]?{
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyyMMdd"
                     currentEvent.endDate = dateFormatter.date(from: dateString)
+                    
+                    var dateComponents = DateComponents()
+                    dateComponents.day = -1
+
+                    // Subtract the components from the date
+                    if let modifiedDate = calendar.date(byAdding: dateComponents, to: currentEvent.endDate!) {
+                        currentEvent.endDate = modifiedDate
+                        print(currentEvent.endDate)
+                    } else {
+                        print("Failed to modify the date.")
+                    }
                 } else if line == "END:VEVENT" {
                     events.append(currentEvent)
-                    currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: false)
+                    currentEvent = Event(summary: nil, location: nil, startDate: nil, endDate: nil,id:"",property: property,cleaner: nil,isConfirmed: 0)
                 }
             }
             return events

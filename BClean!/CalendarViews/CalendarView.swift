@@ -12,6 +12,7 @@ import Firebase
 import FirebaseFirestore
 import Foundation
 import OpenAISwift
+import GoogleMobileAds
 struct tabView: View{
     var body: some View{
         TabView{
@@ -44,6 +45,7 @@ struct CalendarViews: View {
     @State var sheetShowed:Bool = false
     @ObservedObject var gpt = GPTHelper()
     let db = Firestore.firestore()
+    @State var calendarShowed: Int = 0
     //Alert :
     @State var titleAlert:String = ""
     @State var contentAlert:String = ""
@@ -64,21 +66,26 @@ struct CalendarViews: View {
                     .padding(.top,0)
                 
             }
+            if userManager.shared.currentUser?.Subscribe == nil {
+                AdBannerView(bannerId: "ca-app-pub-2542053766209950/9856587688")
+                    .frame(width: UIScreen.main.bounds.width, height: 50)
+            }
             Text("Simply tap the new reservations and assign it to a cleaner. You will also have more informations about the reservations shown. ")
                 .font(.custom("AirbnbCereal_W_Lt", size: 10))
                 .padding(.horizontal)
                 .padding(.top,0)
             HStack {
-                GradientStrokeButton(text: "By Weeks")
-                    .padding(.leading,5)
                 Button {
-                    titleAlert = "Coming Later"
-                    contentAlert = "This functionality is coming in a next update"
-                    showAlert = true
+                    calendarShowed = 0
+                } label: {
+                    Text("By Week")
+                }.buttonStyle(GradientBackgroundButton(color1: "orange-gradient", color2: "red-gradient"))
+                    .padding(.leading,10)
+                Button {
+                    calendarShowed = 1
                 } label: {
                     Text("By month")
                 }.buttonStyle(GradientBackgroundButton(color1: "orange-gradient", color2: "red-gradient"))
-
                 Spacer()
                 Button(action: {
                     sheetShowed = true
@@ -126,7 +133,15 @@ struct CalendarViews: View {
                         Spacer()
                     }.presentationDetents([.medium, .large])
                 }
-            WeeklyCalendarView()
+            if calendarShowed == 0 {
+                WeeklyCalendarView()
+            }
+            else if calendarShowed == 1 {
+                MonthlyCalendarView()
+            }
+            else if calendarShowed == 2 {
+                FocusCleanerCalendarView()
+            }
             Spacer()
         }.onAppear{
             self.formatter.dateFormat = "yyyy-MM-dd"
@@ -166,13 +181,13 @@ struct CalendarViews: View {
                     ///Send message
                     var toPhoneNumber = "\(menage.cleaner!.phone)"
                     print("\(toPhoneNumber)")
-                    var message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at the house \(menage.property.name) located at (\(menage.property.address). Please clic the link below to either accept or deny the reservation."
+                    var message = "Hello \(menage.cleaner!.name), This is an automatic message from \(userManager.shared.currentUser!.name), you have a cleaning to do on \(formatter.string(from: menage.endDate!)) at the house located at \(menage.property.address). Please click the link to accept or deny it."
                     if menage.options != nil {
-                        message = message + "Recommandations from the owner : \(menage.options ?? "")."
+                        message = message + "Notes : \(menage.options ?? "")."
                     }
                     let toSend = translateMessage(text: message, worker: menage.cleaner!) { translatedMessage in
                         print("Translated : \(translatedMessage)")
-                        let final = translatedMessage + "https://7ntys.github.io/BeClean/confirmation?id=\(menage.id)"
+                        let final = translatedMessage + "https://7ntys.github.io/host-site/c.html?i=\(menage.id)&u=\(userManager.shared.currentUser!.id)"
                         let parameters: [String: Any] = [
                             "From": fromPhoneNumber,
                             "To": toPhoneNumber,
@@ -204,7 +219,7 @@ final class GPTHelper: ObservableObject{
     init(){}
     private var client: OpenAISwift?
     func setup(){
-        client = OpenAISwift(authToken: "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")
+        client = OpenAISwift(authToken: "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")
     }
     func send(text:String,completion: @escaping(String) -> Void){
         client?.sendCompletion(with: text,maxTokens: 500) { result in

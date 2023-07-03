@@ -45,22 +45,6 @@ struct EditProfileView: View {
                     }.padding(.leading,40)
                         .padding(.top)
                 }
-                ZStack {
-                    Circle()
-                        .frame(width: 103,height: 103)
-                        .foregroundStyle((LinearGradient(gradient: Gradient(colors: [Color("orange-gradient"), Color("red-gradient")]), startPoint: .top, endPoint: .bottom)))
-                    Image("profile-picture-sample")
-                        .resizable()
-                        .frame(width: 100,height: 100)
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(Circle())
-                    Image(systemName: "pencil")
-                        .resizable()
-                        .frame(width: 50,height: 50)
-                        .foregroundColor(.white)
-                }.padding(.bottom)
-                
-                minimalistTextField(link: $name, placeholderText: "Your name : \(userManager.shared.currentUser?.name ?? "")")
                 NavigationLink(isActive: $linkToReset) {
                     Reset_Password()
                 } label: {

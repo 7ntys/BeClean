@@ -31,6 +31,10 @@ struct SubscribeView: View {
                         }.padding(.leading,20)
                         Spacer()
                     }.padding(.top,40)
+                    Text("All subscription removes ads")
+                        .foregroundColor(.white)
+                        .padding(0)
+                        .fontWeight(.bold)
                     Button {
                         if userManager.shared.currentUser?.Subscribe != nil{
                             titleAlert = "You already subscribed"

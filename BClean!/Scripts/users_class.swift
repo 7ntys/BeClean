@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseFirestore
 import Combine
 class user{
     var name: String

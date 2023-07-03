@@ -76,7 +76,7 @@ struct ProfileView: View {
                                 }.frame(width: 316,height: 38)
                             }
                         }.padding(5)
-                        Link(destination: URL(string: "https://7ntys.github.io/BeClean/")!) {
+                        Link(destination: URL(string: "https://7ntys.github.io/host-site/acceuil.html")!) {
                             ZStack {
                                 Rectangle()
                                     .frame(width: 316,height: 38)

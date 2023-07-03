@@ -20,13 +20,17 @@
 		DE149F3E298EC3CC00F3FA49 /* iPhoneNumberField in Frameworks */ = {isa = PBXBuildFile; productRef = DE149F3D298EC3CC00F3FA49 /* iPhoneNumberField */; };
 		DE197B5729E080BC00D65ED4 /* test_script.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE197B5629E080BC00D65ED4 /* test_script.swift */; };
 		DE3846C42A1019E4003A4071 /* FSCalendar in Frameworks */ = {isa = PBXBuildFile; productRef = DE3846C32A1019E4003A4071 /* FSCalendar */; };
+		DE3D13E82A5202D000A7CDC0 /* AdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3D13E72A5202D000A7CDC0 /* AdView.swift */; };
+		DE3D13EA2A52097300A7CDC0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = DE3D13E92A52097300A7CDC0 /* FirebaseAnalytics */; };
+		DE3D13ED2A52B98E00A7CDC0 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = DE3D13EC2A52B98E00A7CDC0 /* GoogleMobileAds */; };
 		DE3E73452A45BE6600BA8C2B /* Reset Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E73442A45BE6600BA8C2B /* Reset Password.swift */; };
 		DE3E73472A45CCAB00BA8C2B /* HousePresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E73462A45CCAB00BA8C2B /* HousePresentationView.swift */; };
 		DE3E73492A45D81000BA8C2B /* CleanerPresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE3E73482A45D81000BA8C2B /* CleanerPresentationView.swift */; };
 		DE5982CC2A26554E0087FDE7 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DE5982CB2A26554E0087FDE7 /* Alamofire */; };
 		DE5982CF2A2663270087FDE7 /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = DE5982CE2A2663270087FDE7 /* OpenAISwift */; };
 		DE631C1029F56CCC007D219A /* customCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE631C0F29F56CCC007D219A /* customCalendar.swift */; };
-		DE8632362A4F1BF3004013F5 /* HouseCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8632352A4F1BF3004013F5 /* HouseCalendar.swift */; };
+		DE8632382A4F5FD0004013F5 /* MonthlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8632372A4F5FD0004013F5 /* MonthlyCalendarView.swift */; };
+		DE86323A2A4F6052004013F5 /* FocusCleanerCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE8632392A4F6052004013F5 /* FocusCleanerCalendarView.swift */; };
 		DEA0D7AE295DBF83005A3F22 /* BClean_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA0D7AD295DBF83005A3F22 /* BClean_App.swift */; };
 		DEA0D7B2295DBF84005A3F22 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEA0D7B1295DBF84005A3F22 /* Assets.xcassets */; };
 		DEA0D7B5295DBF84005A3F22 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEA0D7B4295DBF84005A3F22 /* Preview Assets.xcassets */; };
@@ -63,11 +67,13 @@
 		DE149F38298EBB2C00F3FA49 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		DE149F3A298EC20800F3FA49 /* AddCleanerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCleanerView.swift; sourceTree = "<group>"; };
 		DE197B5629E080BC00D65ED4 /* test_script.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_script.swift; sourceTree = "<group>"; };
+		DE3D13E72A5202D000A7CDC0 /* AdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdView.swift; sourceTree = "<group>"; };
 		DE3E73442A45BE6600BA8C2B /* Reset Password.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reset Password.swift"; sourceTree = "<group>"; };
 		DE3E73462A45CCAB00BA8C2B /* HousePresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HousePresentationView.swift; sourceTree = "<group>"; };
 		DE3E73482A45D81000BA8C2B /* CleanerPresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanerPresentationView.swift; sourceTree = "<group>"; };
 		DE631C0F29F56CCC007D219A /* customCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customCalendar.swift; sourceTree = "<group>"; };
-		DE8632352A4F1BF3004013F5 /* HouseCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseCalendar.swift; sourceTree = "<group>"; };
+		DE8632372A4F5FD0004013F5 /* MonthlyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyCalendarView.swift; sourceTree = "<group>"; };
+		DE8632392A4F6052004013F5 /* FocusCleanerCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusCleanerCalendarView.swift; sourceTree = "<group>"; };
 		DE9C4B9E2A49BB9B00E48026 /* iPhoneNumberField */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = iPhoneNumberField; path = ../../Downloads/iPhoneNumberField; sourceTree = "<group>"; };
 		DEA0D7AA295DBF83005A3F22 /* BClean!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BClean!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEA0D7AD295DBF83005A3F22 /* BClean_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BClean_App.swift; sourceTree = "<group>"; };
@@ -107,6 +113,8 @@
 				DE149F2F298D194700F3FA49 /* FirebaseAuth in Frameworks */,
 				DEC166AA2A4333D600C38A37 /* FirebaseMessaging in Frameworks */,
 				DE149F31298D194700F3FA49 /* FirebaseFirestore in Frameworks */,
+				DE3D13ED2A52B98E00A7CDC0 /* GoogleMobileAds in Frameworks */,
+				DE3D13EA2A52097300A7CDC0 /* FirebaseAnalytics in Frameworks */,
 				DEB7737D2A477D960052DBCD /* RevenueCat in Frameworks */,
 				DE3846C42A1019E4003A4071 /* FSCalendar in Frameworks */,
 				DE5982CF2A2663270087FDE7 /* OpenAISwift in Frameworks */,
@@ -145,7 +153,8 @@
 				DE631C0F29F56CCC007D219A /* customCalendar.swift */,
 				DEA0D7D2295E0508005A3F22 /* CalendarView.swift */,
 				DEC8E7F82A11900C00D8C37A /* fsCalendar.swift */,
-				DE8632352A4F1BF3004013F5 /* HouseCalendar.swift */,
+				DE8632372A4F5FD0004013F5 /* MonthlyCalendarView.swift */,
+				DE8632392A4F6052004013F5 /* FocusCleanerCalendarView.swift */,
 			);
 			path = CalendarViews;
 			sourceTree = "<group>";
@@ -225,6 +234,7 @@
 			children = (
 				DEA0D7C0295DC3D9005A3F22 /* CustomViews.swift */,
 				DE149F38298EBB2C00F3FA49 /* ImagePicker.swift */,
+				DE3D13E72A5202D000A7CDC0 /* AdView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -293,6 +303,8 @@
 				DE5982CE2A2663270087FDE7 /* OpenAISwift */,
 				DEC166A92A4333D600C38A37 /* FirebaseMessaging */,
 				DEB7737C2A477D960052DBCD /* RevenueCat */,
+				DE3D13E92A52097300A7CDC0 /* FirebaseAnalytics */,
+				DE3D13EC2A52B98E00A7CDC0 /* GoogleMobileAds */,
 			);
 			productName = "BClean!";
 			productReference = DEA0D7AA295DBF83005A3F22 /* BClean!.app */;
@@ -329,6 +341,7 @@
 				DE5982CA2A26554E0087FDE7 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				DE5982CD2A2663270087FDE7 /* XCRemoteSwiftPackageReference "OpenAISwift" */,
 				DEB7737B2A477D960052DBCD /* XCRemoteSwiftPackageReference "purchases-ios" */,
+				DE3D13EB2A52B98D00A7CDC0 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = DEA0D7AB295DBF83005A3F22 /* Products */;
 			projectDirPath = "";
@@ -365,11 +378,13 @@
 			files = (
 				DE149F23298C1F3700F3FA49 /* EditProfileView.swift in Sources */,
 				DEC8E7F92A11900C00D8C37A /* fsCalendar.swift in Sources */,
-				DE8632362A4F1BF3004013F5 /* HouseCalendar.swift in Sources */,
 				DE149F28298C253F00F3FA49 /* HouseView.swift in Sources */,
+				DE3D13E82A5202D000A7CDC0 /* AdView.swift in Sources */,
 				DE149F35298D23B900F3FA49 /* LogoutView.swift in Sources */,
 				DEA0D7D3295E0508005A3F22 /* CalendarView.swift in Sources */,
+				DE86323A2A4F6052004013F5 /* FocusCleanerCalendarView.swift in Sources */,
 				DE3E73472A45CCAB00BA8C2B /* HousePresentationView.swift in Sources */,
+				DE8632382A4F5FD0004013F5 /* MonthlyCalendarView.swift in Sources */,
 				DE631C1029F56CCC007D219A /* customCalendar.swift in Sources */,
 				DEA0D7D1295DDBDB005A3F22 /* SignupView.swift in Sources */,
 				DE3E73452A45BE6600BA8C2B /* Reset Password.swift in Sources */,
@@ -449,6 +464,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -502,6 +518,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -516,7 +533,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "BClean!/BClean!.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"BClean!/Preview Content\"";
 				DEVELOPMENT_TEAM = N3C6Q6C7TT;
 				ENABLE_PREVIEWS = YES;
@@ -536,7 +553,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Julien.BClean-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -555,7 +572,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "BClean!/BClean!.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"BClean!/Preview Content\"";
 				DEVELOPMENT_TEAM = N3C6Q6C7TT;
 				ENABLE_PREVIEWS = YES;
@@ -576,7 +593,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Julien.BClean-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -636,6 +653,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		DE3D13EB2A52B98D00A7CDC0 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 		DE5982CA2A26554E0087FDE7 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
@@ -682,6 +707,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DE3846C22A1019E4003A4071 /* XCRemoteSwiftPackageReference "FSCalendar" */;
 			productName = FSCalendar;
+		};
+		DE3D13E92A52097300A7CDC0 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE149F2D298D194700F3FA49 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		DE3D13EC2A52B98E00A7CDC0 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DE3D13EB2A52B98D00A7CDC0 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 		DE5982CB2A26554E0087FDE7 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

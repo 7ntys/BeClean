@@ -93,8 +93,16 @@ struct AddHouseView: View {
                     DatePicker("Select Date", selection: $houseDefaultCleanTime, displayedComponents: [.hourAndMinute])
                                     .datePickerStyle(.compact)
                                     .labelsHidden()
-                    minimalistTextField(link: $icalLink, placeholderText: "Ical url of the house")
-                        .padding(.bottom,20)
+                    HStack {
+                        minimalistTextField(link: $icalLink, placeholderText: "Ical url of the house")
+                            .padding(.bottom,20)
+                            .padding(.leading,20)
+                        Link(destination: URL(string: "https://7ntys.github.io/host-site/ical.html")!) {
+                            Image(systemName: "questionmark.circle.fill")
+                                .frame(width: 20)
+                                .padding(0)
+                        }
+                    }
                     Button {
                         if (validForm()){
                             create_house(selectedImage: selectedImage, houseName: houseName, houseAbbreviation: houseAbbreviation, houseAddress: houseAddress, houseDefaultCleanTime: houseDefaultCleanTime,icalLink: icalLink)

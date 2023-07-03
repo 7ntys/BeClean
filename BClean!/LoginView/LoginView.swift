@@ -20,13 +20,10 @@ struct LoginView: View {
     @State var showAlert:Bool = false
     @State var titleAlert:String = ""
     @State var contentAlert:String = ""
+    
+    
     var body: some View {
-        if isLoggedIn{
-            tabView()
-        }
-        else{
             loginView
-        }
     }
     var loginView: some View{
         NavigationView {
@@ -98,6 +95,12 @@ struct LoginView: View {
                 
                 
             }
+            .onAppear(){
+                if let user = Auth.auth().currentUser{
+                    email = user.email!
+                    zumba()
+                }
+            }
             .alert(isPresented: $showAlert, content: {
                 Alert(title: Text(titleAlert),message: Text(contentAlert),dismissButton: .cancel())
             })
@@ -105,8 +108,49 @@ struct LoginView: View {
             
         }
     }
+    func zumba(){
+        print("email : \(email)")
+        db.collection("users").whereField("email", isEqualTo: email)
+                    .getDocuments() { (querySnapshot, err) in
+                        if err != nil {
+                            print("Error getting documents: (err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                let name = document.get("name") as? String ?? ""
+                                let surname = document.get("surname") as? String ?? ""
+                                let documentId = document.documentID
+                                print("créer user : \(name) , \(surname)")
+                                var user = user(name: name, surname: surname,id: documentId,email: email.lowercased())
+                                let help = RevenueCatHelp()
+                                userManager.shared.currentUser = user
+                                help.get_user_info()
+                                //Verif
+                                //Recuperation des cleaners :
+                                update_cleaner(documentId: documentId)
+                                //Recuperation des houses :
+                                update_house(documentId: documentId)
+                                //Loading the events
+                                //A changer !!!
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                      // Code to be executed after 3 seconds
+                                      // Put your desired code here
+                                    update_events(documentId: documentId)
+                                  }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    test()
+                                }
+                                if userManager.shared.currentUser?.Subscribe == nil {
+                                    kill_house()
+                                }
+                            }
+                        }
+                }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
+            isLoginActive = true
+        }
+    }
     func login(){
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+        Auth.auth().signIn(withEmail: email.lowercased(), password: password) { result, error in
             if error != nil{
                 titleAlert = "There is an error"
                 contentAlert = error!.localizedDescription
@@ -114,7 +158,7 @@ struct LoginView: View {
             }
             else {
                 print("email : \(email)")
-                db.collection("users").whereField("email", isEqualTo: email)
+                db.collection("users").whereField("email", isEqualTo: email.lowercased())
                             .getDocuments() { (querySnapshot, err) in
                                 if err != nil {
                                     print("Error getting documents: (err)")
@@ -127,8 +171,8 @@ struct LoginView: View {
                                         print("créer user : \(name) , \(surname)")
                                         @State var user = user(name: name, surname: surname,id: documentId,email: email.lowercased())
                                         let help = RevenueCatHelp()
-                                        help.get_user_info()
                                         userManager.shared.currentUser = user
+                                        help.get_user_info()
                                         //Verif
                                         //Recuperation des cleaners :
                                         update_cleaner(documentId: documentId)
@@ -144,12 +188,79 @@ struct LoginView: View {
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                             test()
                                         }
+                                        if userManager.shared.currentUser?.Subscribe == nil {
+                                            kill_house()
+                                        }
                                     }
                                 }
                         }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
                     isLoginActive = true
                 }
+            }
+        }
+    }
+
+    
+    func kill_house(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if userManager.shared.currentUser!.properties.count > 1 {
+                userManager.shared.currentUser?.properties.forEach({ house in
+                    delete_house(property:house)
+                })
+                titleAlert = "❌Your subscription ended❌"
+                contentAlert = "We had to delete all of your houses"
+                showAlert = true
+            }
+            else {return}
+        }
+    }
+    private func delete_house(property:house){
+        //Suppression events :
+        userManager.shared.currentUser?.eventStore = userManager.shared.currentUser!.eventStore.filter(){$0.property != property}
+        
+        //Suppression Events dans la Database :
+        let db = Firestore.firestore()
+
+        // Supprime tous les documents qui ont la valeur "property.id" pour la clé "house"
+        db.collection("users").document(userManager.shared.currentUser!.id).collection("events").whereField("house", isEqualTo: property.id).getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Erreur lors de la récupération des documents : \(error.localizedDescription)")
+                return
+            }
+            
+            guard let snapshot = snapshot else {
+                print("Aucun document correspondant trouvé.")
+                return
+            }
+            
+            // Parcours des documents correspondants et suppression
+            for document in snapshot.documents {
+                let documentID = document.documentID
+                
+                // Supprime le document correspondant
+                db.collection("users").document(userManager.shared.currentUser!.id).collection("events").document(documentID).delete { error in
+                    if let error = error {
+                        print("Erreur lors de la suppression du document \(documentID) : \(error.localizedDescription)")
+                    } else {
+                        print("Document \(documentID) supprimé avec succès.")
+                    }
+                }
+            }
+        }
+        
+        //Suppression de la property :
+        userManager.shared.currentUser?.properties = userManager.shared.currentUser!.properties.filter(){$0.id != property.id}
+        
+        let documentPath = "users/\(userManager.shared.currentUser!.id)/house/\(property.id)" // Chemin complet du document que vous souhaitez supprimer
+
+        let documentRef = db.document(documentPath)
+
+        documentRef.delete { error in
+            if let error = error {
+                print("Erreur lors de la suppression du document : \(error.localizedDescription)")
+            } else {
+                print("Document supprimé avec succès.")
             }
         }
     }

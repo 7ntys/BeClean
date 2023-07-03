@@ -1,8 +1,11 @@
 import SwiftUI
 import Firebase
+import FirebaseFirestore
 import UserNotifications
 import FirebaseMessaging
 import RevenueCat
+import FirebaseAnalytics
+import GoogleMobileAds
 @main
 struct BClean_App: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -26,8 +29,10 @@ class AppDelegate:UIResponder,UIApplicationDelegate,MessagingDelegate, UNUserNot
             print("Succes in APN registry")
         }
         application.registerForRemoteNotifications()
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [GADSimulatorID]
+           
         setup_revenuecat()
-        
         return true
     }
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
@@ -45,7 +50,7 @@ class AppDelegate:UIResponder,UIApplicationDelegate,MessagingDelegate, UNUserNot
         print("application didFailToRegisterForRemoteNotificationsWithError")
     }
     func setup_revenuecat(){
-        Purchases.logLevel = .debug
+        Purchases.logLevel = .warn
         Purchases.configure(withAPIKey: "appl_LCdQSthBfzEFOUPrWPxlClbaZbT")
     }
 }
@@ -58,5 +63,3 @@ class TokenManager: ObservableObject {
         self.device = device
     }
 }
-
-

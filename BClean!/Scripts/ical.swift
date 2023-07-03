@@ -116,7 +116,7 @@ func add_event_db(event:Event){
     var does = true
     userManager.shared.currentUser?.print_events()
     userManager.shared.currentUser?.eventStore.forEach({ menage in
-        if event.endDate == menage.endDate && event.property == menage.property{
+        if Calendar.current.isDate(menage.endDate!, equalTo: event.endDate!, toGranularity: .day) && event.property == menage.property{
             print("This event already exist in database")
             does = false
         }

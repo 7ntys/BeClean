@@ -1,105 +1,21 @@
-//
-//  customCalendar.swift
-//  BClean!
-//
-//  Created by Julien Le ber on 23/04/2023.
-//
-
 import SwiftUI
-import Firebase
-import FirebaseFirestore
-struct customSheet:View{
-    @Binding var isSheetPresented:Bool
-    @Binding var selectedEvent: Event?
-    @State var selection:cleaner?
-    @State var customOptions:String = ""
-    @State var customCleanTime:Date = Date()
-    let db = Firestore.firestore()
-    var formatter = DateFormatter()
-    var body:some View{
-        let _ = formatter.dateFormat = "yyyy-MM-dd"
-        let _ = print("the date of selection is : \(selectedEvent!.endDate!)")
-        if selectedEvent?.endDate! != nil{
-            VStack{
-                Spacer()
-                Text("Assign a reservation")
-                    .font(.custom("AirbnbCereal_W_XBd", size: 32))
-                    .foregroundStyle((LinearGradient(gradient: Gradient(colors: [Color("orange-gradient"), Color("red-gradient")]), startPoint: .top, endPoint: .bottom)))
-                    .padding(.vertical,10)
-                Text("Selected date : \(formatter.string(from: selectedEvent!.endDate!))")
-                    .font(.custom("AirbnbCereal_W_XBd", size: 20))
-                    .foregroundColor(.blue)
-                    .fontWeight(.bold)
-                HousePresentationCalendar(property: selectedEvent!.property)
-                if userManager.shared.currentUser?.Subscribe != nil {
-                    minimalistTextField(link: $customOptions,char: 30,placeholderText: "If you have custom recommandations")
-                }
-                DatePicker("Select Date", selection: $customCleanTime, displayedComponents: [.hourAndMinute])
-                                .datePickerStyle(.compact)
-                                .labelsHidden()
-                    Menu {
-                        ForEach(userManager.shared.currentUser!.cleaners,id: \.self) { cleaner in
-                            Button {
-                                selection = cleaner
-                            } label: {
-                                Text(cleaner.name)
-                            }
+import UIKit
+import Foundation
+struct MonthlyCalendarView: View {
+    @State private var selectedMonth = Date()
 
-                        }
-                    } label: {
-                        if selection == nil {Text("Cleaners options")}
-                        else{
-                            Text("\(selection!.name)")
-                        }
-                    }
-                
-                Spacer()
-                    Button {
-                        if selection == nil {
-                            print("No cleaners selected")                                    }
-                        else{
-                            selectedEvent!.cleaner = selection
-                            selectedEvent!.options = customOptions
-                            selectedEvent!.endDate = customCleanTime
-                            print("the cleaner of the event is : \(selectedEvent!.cleaner!.name) and the date is \(selectedEvent!.endDate)")
-                            db.collection("users").document(userManager.shared.currentUser!.id).collection("events").document(selectedEvent!.id).setData(["cleaner" : selection!.id,"options":customOptions,"endDate":selectedEvent!.endDate!],merge: true)
-                            isSheetPresented = false
-                        }
-                    } label: {
-                        Text("Confirm")
-                    }.buttonStyle(GradientBackgroundButton(color1: "light-green-gradient", color2: "dark-green-gradient"))
-                
-                
-                Spacer()
-            }.presentationDetents([.medium, .large])
-                .onAppear{
-                    selection = selectedEvent?.cleaner
-                    customCleanTime = selectedEvent!.endDate!
-                }
-        }
-        else{
-            Text("Please reclick on a date")
-        }
-Spacer()
-    }
-}
-
-struct WeeklyCalendarView: View {
-    @State private var selectedDate = Date()
-    
     let calendar: Calendar = {
         var cal = Calendar.current
         cal.locale = .current
         cal.firstWeekday = 6 // Set first day of week to Monday
         return cal
     }()
+    @State var events: [Event] = (userManager.shared.currentUser?.eventStore ?? [])
     //Alert
     @State var titleAlert:String = ""
     @State var contentAlert:String = ""
     @State var showAlert:Bool = false
-    //Var
-    @State var events: [Event] = (userManager.shared.currentUser?.eventStore ?? [])
-    @State var currUser:user?
+    
     @State var selectedEvent:Event?
     @State var selected:Date?
     @State var isSheetPresented:Bool = false
@@ -109,20 +25,18 @@ struct WeeklyCalendarView: View {
             VStack {
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHStack(spacing: 0) {
-                        ForEach(0..<60) { weekIndex in
-                            let weekStartDate = self.calendar.date(byAdding: .weekOfYear, value: weekIndex, to: self.selectedDate)!
-                            let weekEndDate = self.calendar.date(byAdding: .day, value: 6, to: weekStartDate)!
-                            
+                        ForEach(0..<12) { monthIndex in
+                            let monthStartDate = self.calendar.date(byAdding: .month, value: monthIndex, to: self.selectedMonth)!
                             VStack(alignment: .leading, spacing: 8) {
                                 HStack {
-                                    Text("\(self.calendar.shortMonthSymbols[self.calendar.component(.month, from: weekStartDate)-1]) \(self.calendar.component(.day, from: weekStartDate)) - \(self.calendar.component(.day, from: weekEndDate))")
+                                    Text("\(self.calendar.shortMonthSymbols[self.calendar.component(.month, from: monthStartDate)-1])")
                                         .font(.system(size: 14, weight: .semibold))
                                         .foregroundColor(.secondary)
-                                    .padding(.bottom, 8)
+                                        .padding(.bottom, 8)
                                     HStack {
                                         Spacer()
                                         Button(action: {
-                                            self.selectedDate = self.calendar.date(byAdding: .weekOfYear, value: -1, to: self.selectedDate)!
+                                            self.selectedMonth = self.calendar.date(byAdding: .month, value: -1, to: self.selectedMonth)!
                                         }) {
                                             Image(systemName: "chevron.left")
                                                 .font(.system(size: 30))
@@ -130,7 +44,7 @@ struct WeeklyCalendarView: View {
                                         }
 
                                         Button(action: {
-                                            self.selectedDate = self.calendar.date(byAdding: .weekOfYear, value: 1, to: self.selectedDate)!
+                                            self.selectedMonth = self.calendar.date(byAdding: .month, value: 1, to: self.selectedMonth)!
                                         }) {
                                             Image(systemName: "chevron.right")
                                                 .font(.system(size: 30))
@@ -142,28 +56,34 @@ struct WeeklyCalendarView: View {
                                     .padding(.horizontal, 16)
                                     .padding(.bottom,20)
                                 }
-                                if refresh_reservation {
-                                    
-                                    ScrollView {
-                                        VStack {
-                                            HStack(spacing: 8) {
-                                            ForEach(0..<7) { dayIndex in
-                                                let date = self.calendar.date(byAdding: .day, value: dayIndex, to: weekStartDate)!
-                                                // Filter events for the current day
+                                
+                                ScrollView {
+                                    VStack {
+                                        if let range = self.calendar.range(of: .day, in: .month, for: monthStartDate) {
+                                            let numberOfDaysInMonth = range.count
+                                            
+                                            ForEach(1...numberOfDaysInMonth, id: \.self) { day in
+                                                let date = self.calendar.date(bySetting: .day, value: day, of: monthStartDate)!
+                                                let weekday = self.calendar.component(.weekday, from: date)
+                                                
                                                 let dayEvents = events.filter { event in
                                                     return calendar.isDate(event.endDate!, inSameDayAs: date)
                                                 }
-                                                VStack(spacing: 4) {
-                                                    Text("\(self.calendar.shortWeekdaySymbols[self.calendar.component(.weekday, from: date)-1])")
-                                                        .font(.system(size: 14, weight: .semibold))
-                                                        .foregroundColor(.accentColor)
-                                                    
-                                                    Text("\(self.calendar.component(.day, from: date))")
-                                                        .font(.system(size: 18, weight: .medium))
-                                                        .foregroundColor(date == Date() ? .accentColor : .primary)
-                                                        .padding(.bottom,20)
-                                                    if dayEvents.count >= 1 {
-                                                            VStack {
+                                                HStack {
+                                                    VStack(spacing: 4) {
+                                                        Text("\(self.calendar.shortWeekdaySymbols[weekday-1])")
+                                                            .font(.system(size: 14, weight: .semibold))
+                                                            .foregroundColor(.accentColor)
+                                                        
+                                                        Text("\(day)")
+                                                            .font(.system(size: 18, weight: .medium))
+                                                            .foregroundColor(date == Date() ? .accentColor : .primary)
+                                                            .padding(.bottom,20)
+                                                        // Add your event handling logic for each day here
+                                                    }
+                                                    Spacer()
+                                                    if dayEvents.count >= 1{
+                                                            HStack {
                                                                 ForEach(dayEvents) { index_event in
                                                                     Button {
                                                                         if index_event.isConfirmed == 0 {
@@ -219,25 +139,22 @@ struct WeeklyCalendarView: View {
                                                                         }
                                                                     }
                                                                 }
+                                                            }.sheet(isPresented: $isSheetPresented,onDismiss : {
+                                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+                                                                    print("ici")
+                                                                    if !isSheetPresented{
+                                                                        update_view()
+                                                                        refresh_reservation = false
+                                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                                                                            refresh_reservation = true
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }){
+                                                                customSheet(isSheetPresented: $isSheetPresented,selectedEvent: $selectedEvent)
                                                             }
                                                     }
                                                     Spacer()
-                                                }
-                                                }
-                                                .frame(maxWidth: .infinity)
-                                                .sheet(isPresented: $isSheetPresented,onDismiss : {
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                                                        print("ici")
-                                                        if !isSheetPresented{
-                                                            update_view()
-                                                            refresh_reservation = false
-                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-                                                                refresh_reservation = true
-                                                            }
-                                                        }
-                                                    }
-                                                }){
-                                                    customSheet(isSheetPresented: $isSheetPresented,selectedEvent: $selectedEvent)
                                                 }
                                             }
                                         }
@@ -254,19 +171,13 @@ struct WeeklyCalendarView: View {
                         }
                     }
                     .padding(.trailing, 16)
-
                     .padding(.vertical, 0)
-                    .onAppear {
-                        UIScrollView.appearance().isPagingEnabled = true
-                        update_view()
-                    }
                 }
                 .animation(.easeInOut)
                 .frame(maxHeight: .infinity)
             }
-                    }
-                    Spacer()
-                }
+        }
+    }
     private func update_view(){
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if !isSheetPresented {
@@ -274,12 +185,10 @@ struct WeeklyCalendarView: View {
             }
         }
 }
-
 }
 
-
-struct customCalendar_Previews: PreviewProvider {
+struct MonthlyCalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        WeeklyCalendarView()
+        MonthlyCalendarView()
     }
 }

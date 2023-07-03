@@ -84,7 +84,7 @@ struct SignupView: View {
         ref = db.collection("users").addDocument(data: [
             "name": firstname,
             "surname": name,
-            "email": email,
+            "email": email.lowercased(),
             "country" : "france",
             "Token":TokenManager.shared.device ?? ""
         ]) { err in
